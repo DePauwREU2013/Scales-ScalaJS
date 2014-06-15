@@ -3,7 +3,6 @@ package edu.depauw.scales.graphics
 import org.scalajs.dom
 
 import scala.language.implicitConversions
-import scala.language.reflectiveCalls
 
 object Base {
   type GraphicsContext = dom.CanvasRenderingContext2D
@@ -30,6 +29,8 @@ object Base {
       ctx.fill()
     }
   }
+  
+  implicit val reflectiveCalls = scala.language.reflectiveCalls // enables ctx.xxxOval w/out warning
 
   type Point = (Double, Double)
 

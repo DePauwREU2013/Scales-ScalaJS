@@ -28,12 +28,15 @@ object ScalaJSExample extends js.JSApp {
     ctx.fillStyle = "rgba(0, 255, 0, 0.5)"
     ctx.lineWidth = 5
     
-    val g: Graphic = Rectangle(80, 50) beside Ellipse(50, 80).rotate(20 deg).translate(0, 50)
-    g.translate(200, 10).render(ctx)
+    val g = Rectangle(80, 50) beside Ellipse(50, 80).rotate(20 deg).translate(0, 50)
+    g.translate(200, 100).render(ctx)
     
     ctx.fillStyle = "rgb(255, 255, 0)"
     val g2 = Rectangle(80, 50) atop Ellipse(50, 80)
-    g2.translate(10, 100).render(ctx)
+    g2.translate(100, 150).render(ctx)
+    
+    val g3 = Rectangle(50, 50).t beside Rectangle(30, 70).t
+    g3.translate(30, 10).render(ctx)
   }
 
   /** Computes the square of an integer.

@@ -21,7 +21,7 @@ trait Graphic {
   def scale(sx: Double, sy: Double): Graphic =
     transform(AffineTransform.getScaleInstance(sx, sy))
     
-  // TODO rotate about a point; scale about a point; ...
+  // TODO skew; reflect; rotate about a point; scale about a point; ...?
     
   def atop(that: Graphic): Graphic = Composite(this, that)
   
@@ -34,4 +34,9 @@ trait Graphic {
     val dy = bounds.bottom - that.bounds.top
     atop(that.translate(0, dy))
   }
+  
+  def t: Graphic = translate(0, -bounds.top)
+  def b: Graphic = translate(0, -bounds.bottom)
+  def l: Graphic = translate(-bounds.left, 0)
+  def r: Graphic = translate(-bounds.right, 0)
 }

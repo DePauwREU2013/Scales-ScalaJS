@@ -85,3 +85,4 @@ case class RectBounds(left: Double, right: Double, top: Double, bottom: Double) 
 }
 
 // TODO add non-rectangular bounds? circles, perhaps?
+// TODO generalize to "envelopes" (compute a boundary given an arbitrary vector) as in Diagrams?
