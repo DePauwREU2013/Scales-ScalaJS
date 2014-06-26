@@ -14,7 +14,7 @@ object ScalaJSExample extends js.JSApp {
     val playground = dom.document.getElementById("playground")
     
     val paragraph = dom.document.createElement("p")
-    paragraph.innerHTML = "<strong>It works! Location = " + window.toString + "</strong>"
+    paragraph.innerHTML = "<strong>It works! Window = " + window.toString + "</strong>"
     playground.appendChild(paragraph)
     
     val canvas = dom.document.createElement("canvas").asInstanceOf[dom.HTMLCanvasElement]
