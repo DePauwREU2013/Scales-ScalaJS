@@ -5,12 +5,16 @@ import org.scalajs.dom
 
 import edu.depauw.scales.graphics._
 
+object window extends js.Object {
+  override def toString: String = ???
+}
+
 object ScalaJSExample extends js.JSApp {
   def main(): Unit = {
     val playground = dom.document.getElementById("playground")
     
     val paragraph = dom.document.createElement("p")
-    paragraph.innerHTML = "<strong>It works!</strong>"
+    paragraph.innerHTML = "<strong>It works! Location = " + window.toString + "</strong>"
     playground.appendChild(paragraph)
     
     val canvas = dom.document.createElement("canvas").asInstanceOf[dom.HTMLCanvasElement]
