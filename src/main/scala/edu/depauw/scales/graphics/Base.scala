@@ -195,6 +195,7 @@ object Base {
     val magenta = RGB(255, 0, 255)
     val black = RGB(0, 0, 0)
     val white = RGB(255, 255, 255)
+    val clear = RGBA(0, 0, 0, 0)
   }
   
   sealed trait Style {

@@ -38,6 +38,13 @@ object ScalaJSExample extends js.JSApp {
     
     val g3 = (Rectangle(50, 50).t beside Rectangle(30, 70).t).fill(Color.cyan)
     g3.translate(30, 10).render(ctx)
+    
+    val p = CompoundPath(
+        OpenSimplePath((0, 0), LineSegment(1, 1)),
+        ClosedSimplePath((0, 0), LineSegment(0, 1), LineSegment(1, 1), LineSegment(1, 0))
+        )
+    val g4 = Shape(p, RectBounds(0, 100, 0, 100)).fill(Color.clear).stroke(Color.blue).width(5)
+    g4.translate(200, 0).render(ctx)
   }
 
   /** Computes the square of an integer.
