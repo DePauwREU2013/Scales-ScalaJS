@@ -29,17 +29,14 @@ object ScalaJSExample extends js.JSApp {
     
     import Base._
     
-    ctx.fillStyle = "rgba(0, 255, 0, 0.5)"
-    ctx.lineWidth = 5
+    val g = Rectangle(80, 50).stroke(Color.red) beside Ellipse(50, 80).rotate(20 deg).translate(0, 50)
+    val g1 = g.fill(RGBA(0, 255, 0, 0.5)).width(5)
+    g1.translate(200, 100).render(ctx)
     
-    val g = Rectangle(80, 50) beside Ellipse(50, 80).rotate(20 deg).translate(0, 50)
-    g.translate(200, 100).render(ctx)
-    
-    ctx.fillStyle = "rgb(255, 255, 0)"
-    val g2 = Rectangle(80, 50) atop Ellipse(50, 80)
+    val g2 = Rectangle(80, 50).fill(Color.blue) on Ellipse(50, 80).fill(HSL(300 deg, 1.0, 0.5))
     g2.translate(100, 150).render(ctx)
     
-    val g3 = Rectangle(50, 50).t beside Rectangle(30, 70).t
+    val g3 = (Rectangle(50, 50).t beside Rectangle(30, 70).t).fill(Color.cyan)
     g3.translate(30, 10).render(ctx)
   }
 

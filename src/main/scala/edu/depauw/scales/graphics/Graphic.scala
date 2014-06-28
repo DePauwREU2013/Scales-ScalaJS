@@ -23,20 +23,24 @@ trait Graphic {
     
   // TODO skew; reflect; rotate about a point; scale about a point; ...?
     
-  def atop(that: Graphic): Graphic = Composite(this, that)
+  def on(that: Graphic): Graphic = Composite(this, that)
   
   def beside(that: Graphic): Graphic = {
     val dx = bounds.right - that.bounds.left
-    atop(that.translate(dx, 0))
+    on(that.translate(dx, 0))
   }
     
   def above(that: Graphic): Graphic = {
     val dy = bounds.bottom - that.bounds.top
-    atop(that.translate(0, dy))
+    on(that.translate(0, dy))
   }
   
   def t: Graphic = translate(0, -bounds.top)
   def b: Graphic = translate(0, -bounds.bottom)
   def l: Graphic = translate(-bounds.left, 0)
   def r: Graphic = translate(-bounds.right, 0)
+  
+  def fill(c: Color): Graphic = Styled(this, FillColor(c))
+  def stroke(c: Color): Graphic = Styled(this, StrokeColor(c))
+  def width(w: Double): Graphic = Styled(this, StrokeWidth(w)) // TODO better name?
 }
