@@ -6,23 +6,10 @@ trait Path {
   def render(ctx: GraphicsContext): Unit
 }
 
-case class ClosedSimplePath(start: Point, segments: Segment*) extends Path {
+case class SimplePath(start: Point, segments: Segment*) extends Path {
   def render(ctx: GraphicsContext): Unit = {
-    ctx.beginPath()
     ctx.moveTo(start._1, start._2)
     for (segment <- segments) segment.render(ctx)
-    ctx.closePath()
-    ctx.fill()
-    ctx.stroke()
-  }
-}
-
-case class OpenSimplePath(start: Point, segments: Segment*) extends Path {
-  def render(ctx: GraphicsContext): Unit = {
-    ctx.beginPath()
-    ctx.moveTo(start._1, start._2)
-    for (segment <- segments) segment.render(ctx)
-    ctx.stroke()
   }
 }
 
@@ -44,10 +31,14 @@ case class ArcSegment(x1: Double, y1: Double, x2: Double, y2: Double, radius: Do
   def render(ctx: GraphicsContext): Unit = ctx.arcTo(x1, y1, x2, y2, radius)
 }
 
-//case class QuadSegment(x: Double, y: Double) extends Segment {
-//  def render(ctx: GraphicsContext): Unit = ctx.quadraticCurveTo(cpx, cpy, x, y)
-//}
-//
-//case class BezierSegment(x: Double, y: Double) extends Segment {
-//  def render(ctx: GraphicsContext): Unit = ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y)
-//}
+case class QuadSegment(cpx: Double, cpy: Double, x: Double, y: Double) extends Segment {
+  def render(ctx: GraphicsContext): Unit = ctx.quadraticCurveTo(cpx, cpy, x, y)
+}
+
+case class BezierSegment(cp1x: Double, cp1y: Double, cp2x: Double, cp2y: Double, x: Double, y: Double) extends Segment {
+  def render(ctx: GraphicsContext): Unit = ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y)
+}
+
+case object CloseSegment extends Segment {
+  def render(ctx: GraphicsContext): Unit = ctx.closePath()
+}

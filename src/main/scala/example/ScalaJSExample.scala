@@ -31,7 +31,7 @@ object ScalaJSExample extends js.JSApp {
     
     val g = Rectangle(80, 50).stroke(Color.red) beside Ellipse(50, 80).rotate(20 deg).translate(0, 50)
     val g1 = g.fill(RGBA(0, 255, 0, 0.5)).width(5)
-    g1.translate(200, 100).render(ctx)
+    g1.translate(200, 105).render(ctx)
     
     val g2 = Rectangle(80, 50).fill(Color.blue) on Ellipse(50, 80).fill(HSL(300 deg, 1.0, 0.5))
     g2.translate(100, 150).render(ctx)
@@ -40,11 +40,11 @@ object ScalaJSExample extends js.JSApp {
     g3.translate(30, 10).render(ctx)
     
     val p = CompoundPath(
-        OpenSimplePath((0, 0), LineSegment(1, 1)),
-        ClosedSimplePath((0, 0), LineSegment(0, 1), LineSegment(1, 1), LineSegment(1, 0))
+        SimplePath((0, 0), LineSegment(1, 1)),
+        SimplePath((0, 0), LineSegment(0, 1), LineSegment(1, 1), LineSegment(1, 0), CloseSegment)
         )
     val g4 = Shape(p, RectBounds(0, 100, 0, 100)).fill(Color.clear).stroke(Color.blue).width(5)
-    g4.translate(200, 0).render(ctx)
+    g4.translate(200, 5).render(ctx)
   }
 
   /** Computes the square of an integer.

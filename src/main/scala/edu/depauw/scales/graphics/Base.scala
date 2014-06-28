@@ -7,30 +7,30 @@ import scala.language.implicitConversions
 object Base {
   type GraphicsContext = dom.CanvasRenderingContext2D
   
-  // HTML5's Canvas is missing these...
-  implicit def decorateContext(ctx: dom.CanvasRenderingContext2D) = new {
-    def strokeOval(x: Double, y: Double, w: Double, h: Double): Unit = {
-      ctx.save()
-      ctx.translate(x, y)
-      ctx.scale(w/h, 1)
-      ctx.beginPath()
-      ctx.arc(h/2, h/2, h/2, 0, 2*math.Pi)
-      ctx.restore()
-      ctx.stroke()
-    }
-    
-    def fillOval(x: Double, y: Double, w: Double, h: Double): Unit = {
-      ctx.save()
-      ctx.translate(x, y)
-      ctx.scale(w/h, 1)
-      ctx.beginPath()
-      ctx.arc(h/2, h/2, h/2, 0, 2*math.Pi)
-      ctx.restore()
-      ctx.fill()
-    }
-  }
-  
-  implicit val reflectiveCalls = scala.language.reflectiveCalls // enables ctx.xxxOval w/out warning
+//  // HTML5's Canvas is missing these...
+//  implicit def decorateContext(ctx: dom.CanvasRenderingContext2D) = new {
+//    def strokeOval(x: Double, y: Double, w: Double, h: Double): Unit = {
+//      ctx.save()
+//      ctx.translate(x, y)
+//      ctx.scale(w/h, 1)
+//      ctx.beginPath()
+//      ctx.arc(h/2, h/2, h/2, 0, Tau)
+//      ctx.restore()
+//      ctx.stroke()
+//    }
+//    
+//    def fillOval(x: Double, y: Double, w: Double, h: Double): Unit = {
+//      ctx.save()
+//      ctx.translate(x, y)
+//      ctx.scale(w/h, 1)
+//      ctx.beginPath()
+//      ctx.arc(h/2, h/2, h/2, 0, Tau)
+//      ctx.restore()
+//      ctx.fill()
+//    }
+//  }
+//  
+//  implicit val reflectiveCalls = scala.language.reflectiveCalls // enables ctx.xxxOval w/out warning
 
   type Point = (Double, Double)
 
