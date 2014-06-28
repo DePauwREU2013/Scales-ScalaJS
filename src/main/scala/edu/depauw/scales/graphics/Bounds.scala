@@ -8,6 +8,10 @@ sealed trait Bounds {
   def right: Double
   def top: Double
   def bottom: Double
+  
+  def width: Double = right - left
+  
+  def height: Double = bottom - top
 
   def union(that: Bounds): Bounds
   
