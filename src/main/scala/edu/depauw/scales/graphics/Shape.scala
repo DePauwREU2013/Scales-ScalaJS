@@ -37,4 +37,13 @@ object Ellipse {
     Shape(path, RectBounds(-width/2, width/2, -height/2, height/2))
 }
 
-// TODO regular polygons, general polygons & polylines, paths as in Scales 3.0
+object RegPoly {
+  def apply(radius: Double, n: Int): Graphic = {
+    val segments = for (i <- 1 to n)
+      yield LineSegment(0.5 + 0.5 * Cos((i.toDouble / n) rev), 0.5 + 0.5 * Sin((i.toDouble / n) rev))
+    val path = SimplePath((1, 0.5), segments: _*)
+    Shape(path, RectBounds(-radius, radius, -radius, radius))
+  }
+}
+
+// TODO general polygons & polylines, paths as in Scales 3.0

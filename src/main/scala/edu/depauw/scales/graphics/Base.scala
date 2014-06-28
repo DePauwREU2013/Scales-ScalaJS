@@ -6,7 +6,7 @@ import scala.language.implicitConversions
 
 object Base {
   type GraphicsContext = dom.CanvasRenderingContext2D
-  
+
 //  // HTML5's Canvas is missing these...
 //  implicit def decorateContext(ctx: dom.CanvasRenderingContext2D) = new {
 //    def strokeOval(x: Double, y: Double, w: Double, h: Double): Unit = {

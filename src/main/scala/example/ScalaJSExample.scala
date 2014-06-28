@@ -33,7 +33,7 @@ object ScalaJSExample extends js.JSApp {
     val g1 = g.fill(RGBA(0, 255, 0, 0.5)).width(5)
     g1.translate(200, 105).render(ctx)
     
-    val g2 = Rectangle(80, 50).fill(Color.blue) on Ellipse(50, 80).fill(HSL(300 deg, 1.0, 0.5))
+    val g2 = RegPoly(30, 6).fill(Color.blue) on Ellipse(50, 80).fill(HSL(300 deg, 1.0, 0.5))
     g2.translate(100, 150).render(ctx)
     
     val g3 = (Rectangle(50, 50).t beside Rectangle(30, 70).t).fill(Color.cyan)
