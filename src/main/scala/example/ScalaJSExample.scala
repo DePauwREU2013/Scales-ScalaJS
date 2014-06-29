@@ -33,7 +33,8 @@ object ScalaJSExample extends js.JSApp {
     val g1 = g.fill(RGBA(0, 255, 0, 0.5)).width(5)
     g1.translate(200, 105).render(ctx)
     
-    val g2 = RegPoly(30, 7).fill(Color.blue) on Ellipse(50, 80).fill(HSL(300 deg, 1.0, 0.5))
+    val bowtie = Polygon((0, 0), (50, 0), (0, 80), (50, 80))
+    val g2 = RegPoly(30, 7).fill(Color.blue) on bowtie.c.m.fill(HSL(300 deg, 1.0, 0.5))
     g2.translate(100, 150).render(ctx)
     
     val g3 = (Rectangle(50, 50).t beside Rectangle(30, 70).t).fill(Color.cyan)
@@ -45,6 +46,9 @@ object ScalaJSExample extends js.JSApp {
         )
     val g4 = Shape(p, RectBounds(0, 100, 0, 100)).fill(Color.clear).stroke(Color.blue).width(5)
     g4.translate(200, 5).render(ctx)
+    
+    val g5 = Polyline((0, 0), (80, 0), (0, 50), (80, 50))
+    g5.translate(100, 10).render(ctx)
   }
 
   /** Computes the square of an integer.

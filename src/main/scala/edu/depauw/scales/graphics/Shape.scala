@@ -2,7 +2,7 @@ package edu.depauw.scales.graphics
 
 import Base._
 
-case class Shape(path: Path, bounds: Bounds) extends Graphic {
+case class Shape(path: Path, bounds: Bounds, closed: Boolean = true) extends Graphic {
   def render(ctx: GraphicsContext): Unit = {
     ctx.beginPath()
     ctx.save()
@@ -10,7 +10,7 @@ case class Shape(path: Path, bounds: Bounds) extends Graphic {
     ctx.scale(bounds.right - bounds.left, bounds.bottom - bounds.top)
     path.render(ctx)
     ctx.restore()
-    ctx.fill() // TODO add a flag for non-filled shapes, or just use Color.clear?
+    if (closed) ctx.fill()
     ctx.stroke()
   }
 }
@@ -55,7 +55,7 @@ object Polyline {
       def scale(p: Point): Point =
         ((p._1 - bounds.left) / bounds.width, (p._2 - bounds.top) / bounds.height)
       val segments = findSegments(points, scale)
-      Shape(SimplePath(scale(points.head), segments: _*), bounds)
+      Shape(SimplePath(scale(points.head), segments: _*), bounds, false)
     }
 
   def findBounds(points: Seq[Point]): Bounds = {

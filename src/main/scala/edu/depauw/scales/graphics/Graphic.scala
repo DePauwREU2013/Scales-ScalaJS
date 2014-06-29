@@ -36,8 +36,10 @@ trait Graphic {
   }
   
   def t: Graphic = translate(0, -bounds.top)
+  def m: Graphic = translate(0, -bounds.middle)
   def b: Graphic = translate(0, -bounds.bottom)
   def l: Graphic = translate(-bounds.left, 0)
+  def c: Graphic = translate(-bounds.center, 0)
   def r: Graphic = translate(-bounds.right, 0)
   
   def fill(c: Color): Graphic = Styled(this, FillColor(c))
