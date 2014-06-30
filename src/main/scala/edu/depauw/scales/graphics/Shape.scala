@@ -45,9 +45,9 @@ object Ellipse {
 }
 
 object RegPoly {
-  def apply(radius: Double, n: Int): Graphic = {
+  def apply(radius: Double, n: Int, m: Int = 1): Graphic = {
     val segments = for (i <- 1 to n)
-      yield LineSegment(0.5 + 0.5 * math.cos(Tau * i / n), 0.5 + 0.5 * math.sin(Tau * i / n))
+      yield LineSegment(0.5 + 0.5 * math.cos(Tau * m * i / n), 0.5 + 0.5 * math.sin(Tau * m * i / n))
     Shape(PointSegment(1, 0.5) :: segments.toList, RectBounds(-radius, radius, -radius, radius))
   }
 }

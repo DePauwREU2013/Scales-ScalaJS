@@ -53,6 +53,9 @@ object ScalaJSExample extends js.JSApp {
       (0.5, 0.5) lineTo (0, 0) lineTo (1, 0) lineTo(1, 0.5) curveTo (0.5, 1) lineTo (0, 1)
     }.width(3).fill(Color.Aqua).stroke(Color.Black)
     g6.translate(410, 10).render(ctx)
+    
+    val g7 = RegPoly(30, 5, 2).fill(Color.Brown).stroke(Color.Clear)
+    g7.translate(380, 50).render(ctx)
   }
 
   /**
