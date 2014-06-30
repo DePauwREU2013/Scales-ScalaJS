@@ -2,25 +2,12 @@ package edu.depauw.scales.graphics
 
 import Base._
 
-trait Path {
-  def render(ctx: GraphicsContext): Unit
-}
-
-case class SimplePath(start: Point, segments: Segment*) extends Path {
-  def render(ctx: GraphicsContext): Unit = {
-    ctx.moveTo(start._1, start._2)
-    for (segment <- segments) segment.render(ctx)
-  }
-}
-
-case class CompoundPath(paths: Path*) extends Path {
-  def render(ctx: GraphicsContext): Unit = {
-    for (path <- paths) path.render(ctx)
-  }  
-}
-
 trait Segment {
   def render(ctx: GraphicsContext): Unit
+}
+
+case class PointSegment(x: Double, y: Double) extends Segment {
+  def render(ctx: GraphicsContext): Unit = ctx.moveTo(x, y)
 }
 
 case class LineSegment(x: Double, y: Double) extends Segment {
