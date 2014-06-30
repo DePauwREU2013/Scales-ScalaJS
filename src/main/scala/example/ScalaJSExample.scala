@@ -61,6 +61,9 @@ object ScalaJSExample extends js.JSApp {
       HSL(x rev, y, 0.5)
     }
     g8.translate(400, 80).render(ctx)
+    
+    val g9 = g1.freeze
+    g9.scale(0.5).translate(500, 50).render(ctx)
   }
 
   /**

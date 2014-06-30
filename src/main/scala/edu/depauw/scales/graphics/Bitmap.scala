@@ -21,8 +21,6 @@ case class Bitmap(canvas: dom.HTMLCanvasElement, bounds: Bounds) extends Graphic
       RGBA(r, g, b, a)
     }
   }
-
-  // TODO define a map function to transform the bitmap?
 }
 
 object Bitmap {
@@ -31,10 +29,11 @@ object Bitmap {
     val bounds: Bounds = RectBounds(0, width, 0, height)
     
     // TODO this is arbitrary...
-    canvas.width = 100
-    canvas.height = 100
+    canvas.width = 500
+    canvas.height = 500
     val ctx = canvas.getContext("2d").asInstanceOf[dom.CanvasRenderingContext2D]
     val imagedata = ctx.createImageData(canvas.width, canvas.height)
+    
     for (row <- 0 until imagedata.height; col <- 0 until imagedata.width) {
       val c = fn(col.toDouble / imagedata.width, row.toDouble / imagedata.height)
       val index = (row * imagedata.width + col) * 4
@@ -44,6 +43,25 @@ object Bitmap {
       imagedata.data(index + 3) = math.round(c.alpha * 255).toInt
     }
     ctx.putImageData(imagedata, 0, 0)
+    
+    Bitmap(canvas, bounds)
+  }
+}
+
+object Image {
+  def apply(url: String): Graphic = ??? // TODO load an image file
+}
+
+object Freeze {
+  def apply(graphic: Graphic): Graphic = {
+    val canvas = dom.document.createElement("canvas").asInstanceOf[dom.HTMLCanvasElement]
+    val bounds = graphic.bounds
+    
+    // TODO this is arbitrary...
+    canvas.width = 500
+    canvas.height = 500
+    val ctx = canvas.getContext("2d").asInstanceOf[dom.CanvasRenderingContext2D]
+    graphic.t.l.scale(canvas.width / bounds.width, canvas.height / bounds.height).render(ctx)
     
     Bitmap(canvas, bounds)
   }

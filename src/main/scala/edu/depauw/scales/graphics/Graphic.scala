@@ -45,5 +45,7 @@ trait Graphic {
   def fill(c: Color): Graphic = Styled(this, FillColor(c))
   def stroke(c: Color): Graphic = Styled(this, StrokeColor(c))
   def strokeWidth(w: Double): Graphic = Styled(this, StrokeWidth(w))
+  
+  def freeze: Graphic = Freeze(this)
 }
-// TODO add bitmap-based operations/subclass
+// TODO add padding and other bounds manipulation
