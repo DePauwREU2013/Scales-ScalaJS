@@ -44,6 +44,6 @@ trait Graphic {
 
   def fill(c: Color): Graphic = Styled(this, FillColor(c))
   def stroke(c: Color): Graphic = Styled(this, StrokeColor(c))
-  def width(w: Double): Graphic = Styled(this, StrokeWidth(w)) // TODO better name?
+  def strokeWidth(w: Double): Graphic = Styled(this, StrokeWidth(w))
 }
 // TODO add bitmap-based operations/subclass
