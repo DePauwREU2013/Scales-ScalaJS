@@ -49,7 +49,8 @@ object Bitmap {
 }
 
 object Image {
-  def apply(url: String): Graphic = ??? // TODO load an image file
+  def apply(url: String): Graphic = ???
+  // TODO load an image file -- this might not be useful, because of single-origin restrictions
 }
 
 object Freeze {
@@ -60,8 +61,7 @@ object Freeze {
     // TODO this is arbitrary...
     canvas.width = 500
     canvas.height = 500
-    val ctx = canvas.getContext("2d").asInstanceOf[dom.CanvasRenderingContext2D]
-    graphic.t.l.scale(canvas.width / bounds.width, canvas.height / bounds.height).render(ctx)
+    graphic.displayOn(canvas)
     
     Bitmap(canvas, bounds)
   }

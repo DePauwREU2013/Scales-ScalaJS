@@ -1,6 +1,7 @@
 package edu.depauw.scales.graphics
 
 import Base._
+import org.scalajs.dom
 
 trait Graphic {
   def bounds: Bounds
@@ -47,5 +48,19 @@ trait Graphic {
   def strokeWidth(w: Double): Graphic = Styled(this, StrokeWidth(w))
   
   def freeze: Graphic = Freeze(this)
+  
+  def pad(fraction: Double): Graphic = {
+    val extraWidth = bounds.width * fraction / 2
+    val extraHeight = bounds.height * fraction / 2
+    val newBounds = RectBounds(bounds.left - extraWidth, bounds.right + extraWidth,
+        bounds.top - extraHeight, bounds.bottom + extraHeight)
+    Bounded(this, newBounds)
+  }
+  
+  def displayOn(canvas: dom.HTMLCanvasElement): Unit = {
+    val ctx = canvas.getContext("2d").asInstanceOf[dom.CanvasRenderingContext2D]
+    val scaleFactor = (canvas.width / bounds.width) min (canvas.height / bounds.height)
+    this.t.l.scale(scaleFactor).render(ctx)
+  }
 }
-// TODO add padding and other bounds manipulation
+// TODO add other bounds manipulation

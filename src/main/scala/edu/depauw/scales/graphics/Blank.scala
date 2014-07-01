@@ -7,3 +7,5 @@ case object Blank extends Graphic {
   
   def render(ctx: GraphicsContext): Unit = {}
 }
+
+// TODO define bounded versions to use for padding/alignment
