@@ -2,7 +2,6 @@ package edu.depauw.scales.graphics
 
 import Base._
 import org.scalajs.dom
-import org.scalajs.dom.Event
 
 case class Bitmap(canvas: dom.HTMLCanvasElement, bounds: Bounds) extends Graphic {
   def render(ctx: GraphicsContext): Unit = ctx.drawImage(canvas, bounds.left, bounds.top, bounds.width, bounds.height)
@@ -60,7 +59,7 @@ object Image {
     val ctx = canvas.getContext("2d").asInstanceOf[dom.CanvasRenderingContext2D]
     
     val image = dom.document.createElement("img").asInstanceOf[dom.HTMLImageElement]
-    image.addEventListener("load", (_: Event) => ctx.drawImage(image, 0, 0, width, height))
+    image.addEventListener("load", (_: dom.Event) => ctx.drawImage(image, 0, 0, width, height))
     image.src = url
     
     Bitmap(canvas, bounds)

@@ -225,26 +225,4 @@ object Base {
     // Colorless
     val Clear = RGBA(0, 0, 0, 0)
   }
-
-  sealed trait Style {
-    def apply(ctx: GraphicsContext): Unit
-  }
-
-  case class FillColor(c: Color) extends Style {
-    def apply(ctx: GraphicsContext): Unit = {
-      ctx.fillStyle = c.toString
-    }
-  }
-
-  case class StrokeColor(c: Color) extends Style {
-    def apply(ctx: GraphicsContext): Unit = {
-      ctx.strokeStyle = c.toString
-    }
-  }
-
-  case class StrokeWidth(w: Double) extends Style {
-    def apply(ctx: GraphicsContext): Unit = {
-      ctx.lineWidth = w
-    }
-  }
 }
