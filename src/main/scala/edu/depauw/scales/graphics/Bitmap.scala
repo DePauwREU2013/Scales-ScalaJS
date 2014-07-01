@@ -27,13 +27,13 @@ object Bitmap {
   def apply(width: Double, height: Double)(fn: (Double, Double) => Color): Graphic = {
     val canvas = dom.document.createElement("canvas").asInstanceOf[dom.HTMLCanvasElement]
     val bounds: Bounds = RectBounds(0, width, 0, height)
-    
+
     // TODO this is arbitrary...
     canvas.width = 500
     canvas.height = 500
     val ctx = canvas.getContext("2d").asInstanceOf[dom.CanvasRenderingContext2D]
     val imagedata = ctx.createImageData(canvas.width, canvas.height)
-    
+
     for (row <- 0 until imagedata.height; col <- 0 until imagedata.width) {
       val c = fn(col.toDouble / imagedata.width, row.toDouble / imagedata.height)
       val index = (row * imagedata.width + col) * 4
@@ -43,7 +43,7 @@ object Bitmap {
       imagedata.data(index + 3) = math.round(c.alpha * 255).toInt
     }
     ctx.putImageData(imagedata, 0, 0)
-    
+
     Bitmap(canvas, bounds)
   }
 }
@@ -57,12 +57,19 @@ object Freeze {
   def apply(graphic: Graphic): Graphic = {
     val canvas = dom.document.createElement("canvas").asInstanceOf[dom.HTMLCanvasElement]
     val bounds = graphic.bounds
-    
+
+    // Choose size for canvas so each dimension is at least 500, and the proportions are correct
     // TODO this is arbitrary...
-    canvas.width = 500
-    canvas.height = 500
-    graphic.displayOn(canvas)
+    if (bounds.width < bounds.height) {
+      canvas.width = 500
+      canvas.height = (canvas.width * bounds.height / bounds.width).toInt
+    } else {
+      canvas.height = 500
+      canvas.width = (canvas.height * bounds.width / bounds.height).toInt
+    }
     
+    graphic.displayOn(canvas)
+
     Bitmap(canvas, bounds)
   }
 }
