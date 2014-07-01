@@ -8,4 +8,17 @@ case object Blank extends Graphic {
   def render(ctx: GraphicsContext): Unit = {}
 }
 
-// TODO define bounded versions to use for padding/alignment
+object Space {
+  def apply(width: Double, height: Double): Graphic =
+    Bounded(Blank, RectBounds(0, width, 0, height))
+}
+
+object VSpace {
+  def apply(height: Double): Graphic =
+    Bounded(Blank, VerticalStrut(0, height))
+}
+
+object HSpace {
+  def apply(width: Double): Graphic =
+    Bounded(Blank, HorizontalStrut(0, width))
+}
