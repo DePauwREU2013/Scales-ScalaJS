@@ -64,7 +64,6 @@ object ScalaJSExample extends js.JSApp {
     	(g7 above g8.c).pad(0.1).t beside
     	(g9.r.b on g6.r.m).pad(0.1).t
     	
-    g.displayOn(canvas)
     dom.setInterval(() => g.displayOn(canvas), 1000) // wait for the image to have loaded...
   }
 
