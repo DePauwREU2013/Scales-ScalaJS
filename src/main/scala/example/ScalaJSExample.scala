@@ -57,14 +57,16 @@ object ScalaJSExample extends js.JSApp {
 
     val g10 = Image("bth.jpg", 70, 80)
 
-    val g =
-      ((g4.b.l on g1.showBounds).pad(0.1).t beside
+    val g = (
+      (g4.b.l on g1.showBounds).pad(0.1).t beside
         ((g3 beside HSpace(10) beside g5) above
           VSpace(10) above
           (g2 beside HSpace(10) beside g10.m)).pad(0.1).t beside
         (g7 above g8.c).pad(0.1).t beside
         (g9.r.b on g6.r.m).pad(0.1).t).c above
-      (Text("Hello ", Font("serif", 24)) beside Text("World!", Font("serif", 24), true)).pad(0.2).c
+      (Text("Hello ", Font("serif", 48)).fill(Color.HotPink) beside
+        Text("World!", Font("serif", 48), true).stroke(Color.SeaGreen)
+    ).pad(0.2).c
 
     dom.setTimeout(() => g.displayOn(canvas), 1000) // wait for the image to have loaded...
   }

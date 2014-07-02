@@ -60,8 +60,8 @@ trait Graphic {
   def showBounds: Graphic = {
     val box = Rectangle(bounds.width, bounds.height).t.l.translate(bounds.left, bounds.top)
     val axes = Shape(bounds.width, bounds.height) {
-      (-bounds.left / bounds.width, 0) lineTo (-bounds.left / bounds.width, 1) moveTo
-      (0, -bounds.top / bounds.height) lineTo (1, -bounds.top / bounds.height)
+      (-bounds.left / bounds.width, -0.1) lineTo (-bounds.left / bounds.width, 1.1) moveTo
+      (-0.1, -bounds.top / bounds.height) lineTo (1.1, -bounds.top / bounds.height)
     }.t.l.translate(bounds.left, bounds.top)
     (box on axes).fill(Color.Clear).stroke(Color.Black).strokeWidth(1) on this
   }
