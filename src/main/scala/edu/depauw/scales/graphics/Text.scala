@@ -3,7 +3,7 @@ package edu.depauw.scales.graphics
 import Base._
 import org.scalajs.dom
 
-case class Text(text: String, font: Font = Font.Sans10) extends Graphic {
+case class Text(text: String, font: Font = Font.Sans10, outline: Boolean = false) extends Graphic {
   def bounds: Bounds = {
     RectBounds(0, font.measure(text), -font.size, 0) // bottom of the box is at the baseline; text will probably descend below...
   }
@@ -11,8 +11,11 @@ case class Text(text: String, font: Font = Font.Sans10) extends Graphic {
   def render(ctx: GraphicsContext): Unit = {
     ctx.save()
     ctx.font = font.toString
-    ctx.fillText(text, 0, 0)
-    ctx.strokeText(text, 0, 0)
+    if (outline) {
+      ctx.strokeText(text, 0, 0)
+    } else {
+      ctx.fillText(text, 0, 0)
+    }
     ctx.restore()
   }
 }
@@ -25,9 +28,10 @@ case class Font(family: String, size: Int, italic: Boolean = false, smallCaps: B
     if (italic) result = "italic " + result
     result
   }
-  
+
   def measure(text: String): Double = {
     val ctx = Font.metricCanvas.getContext("2d").asInstanceOf[dom.CanvasRenderingContext2D]
+    ctx.font = toString
     ctx.measureText(text).width
   }
 }

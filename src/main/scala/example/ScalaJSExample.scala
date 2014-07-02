@@ -42,28 +42,30 @@ object ScalaJSExample extends js.JSApp {
     val g4 = Shape(p, RectBounds(0, 100, 0, 100)).fill(Color.Clear).stroke(Color.Blue).strokeWidth(5)
 
     val g5 = Polyline((0, 0), (80, 0), (0, 50), (80, 50))
-    
+
     val g6 = Shape(180, 180) {
-      (0.5, 0.5) lineTo (0, 0) lineTo (1, 0) lineTo(1, 0.5) curveTo (0.5, 1) lineTo (0, 1)
+      (0.5, 0.5) lineTo (0, 0) lineTo (1, 0) lineTo (1, 0.5) curveTo (0.5, 1) lineTo (0, 1)
     }.strokeWidth(3).fill(Color.Aqua).stroke(Color.Black)
-    
+
     val g7 = RegPoly(30, 5, 2).fill(Color.Brown).stroke(Color.Clear)
-    
-    val g8 = Bitmap(50, 50) {(x, y) =>
+
+    val g8 = Bitmap(50, 50) { (x, y) =>
       HSL(x rev, y, 0.5)
     }
-    
+
     val g9 = g1.pad(0.05).freeze.scale(0.5)
-    
+
     val g10 = Image("bth.jpg", 70, 80)
-    
-    val g = ((g4.b.l on g1).pad(0.1).t beside
-    	((g3 beside HSpace(10) beside g5) above
-    	    VSpace(10) above
-    	    (g2 beside HSpace(10) beside g10.m)).pad(0.1).t beside
-    	(g7 above g8.c).pad(0.1).t beside
-    	(g9.r.b on g6.r.m).pad(0.1).t).c above Text("Hello World!", Font("serif", 24)).c
-    	
+
+    val g =
+      ((g4.b.l on g1.showBounds).pad(0.1).t beside
+        ((g3 beside HSpace(10) beside g5) above
+          VSpace(10) above
+          (g2 beside HSpace(10) beside g10.m)).pad(0.1).t beside
+        (g7 above g8.c).pad(0.1).t beside
+        (g9.r.b on g6.r.m).pad(0.1).t).c above
+      (Text("Hello ", Font("serif", 24)) beside Text("World!", Font("serif", 24), true)).pad(0.2).c
+
     dom.setTimeout(() => g.displayOn(canvas), 1000) // wait for the image to have loaded...
   }
 
