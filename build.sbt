@@ -15,5 +15,6 @@ scalacOptions ++= Seq( "-deprecation", "-feature" )
 
 libraryDependencies ++= Seq(
     "org.scala-lang.modules.scalajs" %%% "scalajs-dom" % "0.6",
+    "com.scalarx" %%% "scalarx" % "0.2.5",
     "org.scala-lang.modules.scalajs" %% "scalajs-jasmine-test-framework" % scalaJSVersion % "test"
 )
