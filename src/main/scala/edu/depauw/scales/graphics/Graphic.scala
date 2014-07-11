@@ -35,13 +35,16 @@ trait Graphic {
     val dy = bounds.bottom - that.bounds.top
     on(that.translate(0, dy))
   }
-
-  def t: Graphic = translate(0, -bounds.top)
-  def m: Graphic = translate(0, -bounds.middle)
-  def b: Graphic = translate(0, -bounds.bottom)
-  def l: Graphic = translate(-bounds.left, 0)
-  def c: Graphic = translate(-bounds.center, 0)
-  def r: Graphic = translate(-bounds.right, 0)
+  
+  def tl: Graphic = translate(-bounds.left, -bounds.top)
+  def top: Graphic = translate(-bounds.center, -bounds.top)
+  def tr: Graphic = translate(-bounds.right, -bounds.top)
+  def left: Graphic = translate(-bounds.left, -bounds.middle)
+  def center: Graphic = translate(-bounds.center, -bounds.middle)
+  def right: Graphic = translate(-bounds.right, -bounds.middle)
+  def bl: Graphic = translate(-bounds.left, -bounds.bottom)
+  def bottom: Graphic = translate(-bounds.center, -bounds.bottom)
+  def br: Graphic = translate(-bounds.right, -bounds.bottom)
 
   def fill(c: Color): Graphic = Styled(this, FillColor(c))
   def stroke(c: Color): Graphic = Styled(this, StrokeColor(c))
@@ -58,18 +61,18 @@ trait Graphic {
   }
   
   def showBounds: Graphic = {
-    val box = Rectangle(bounds.width, bounds.height).t.l.translate(bounds.left, bounds.top)
+    val box = Rectangle(bounds.width, bounds.height).tl.translate(bounds.left, bounds.top)
     val axes = Shape(bounds.width, bounds.height) {
       (-bounds.left / bounds.width, -0.1) lineTo (-bounds.left / bounds.width, 1.1) moveTo
       (-0.1, -bounds.top / bounds.height) lineTo (1.1, -bounds.top / bounds.height)
-    }.t.l.translate(bounds.left, bounds.top)
+    }.tl.translate(bounds.left, bounds.top)
     (box on axes).fill(Color.Clear).stroke(Color.Black).strokeWidth(1) on this
   }
   
   def displayOn(canvas: dom.HTMLCanvasElement): Unit = {
     val ctx = canvas.getContext("2d").asInstanceOf[dom.CanvasRenderingContext2D]
     val scaleFactor = (canvas.width / bounds.width) min (canvas.height / bounds.height)
-    this.t.l.scale(scaleFactor).render(ctx)
+    this.tl.scale(scaleFactor).render(ctx)
   }
 }
 // TODO add other bounds manipulation
