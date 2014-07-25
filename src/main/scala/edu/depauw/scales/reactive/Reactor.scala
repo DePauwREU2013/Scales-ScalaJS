@@ -175,8 +175,6 @@ case class Reactor[T](reaction: Reactive, fn: T => Scales) {
 			case x: ScalesNote =>
 				x.play(0)
 			case _ =>
-			//case x: Note => //do nothing because note plays itself automatically
-			//case x: ScalaJSExample.ScalesNote => 
 		}
 	}
 }
