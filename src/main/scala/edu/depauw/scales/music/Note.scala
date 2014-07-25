@@ -7,8 +7,12 @@ import rx._
 
 trait Scales {}
 
+object Audio {
+	val audioContext = js.Dynamic.newInstance(js.Dynamic.global.AudioContext)()
+}
+
 trait ScalesNote extends Scales {
-	val ctx = js.Dynamic.newInstance(js.Dynamic.global.AudioContext)()
+	val ctx = Audio.audioContext
 
 	def play(t: Double): Unit
 
@@ -42,9 +46,8 @@ case class Note(freq: Double, dur: Double = 1, vol: Double = 1) extends ScalesNo
 		o.connect(g)
 		g.connect(ctx.destination)
 
-		val startTime = ctx.currentTime.toString().toDouble + time
-		o.start(startTime)
-		o.stop(startTime + dur)
+		o.start(ctx.currentTime.toString().toDouble + time)
+		o.stop(ctx.currentTime.toString().toDouble + time + dur)
 	}
 
 	/*
@@ -87,9 +90,8 @@ case class SoundComposite(first: ScalesNote, second: ScalesNote) extends ScalesN
 	def duration = first.duration + second.duration
 
 	def play(time: Double = 0) {
-		val startTime = ctx.currentTime.toString().toDouble + time
-		first.play(startTime)
-		second.play(startTime + first.duration)
+		first.play(time)
+		second.play(time + first.duration)
 	}
 
 }
@@ -101,9 +103,8 @@ case class ParallelComposite(first: ScalesNote, second: ScalesNote) extends Scal
 	def duration = math.max(first.duration, second.duration)
 
 	def play(time: Double = 0) {
-		val startTime = ctx.currentTime.toString().toDouble + time
-		first.play(startTime)
-		second.play(startTime)
+		first.play(time)
+		second.play(time)
 	}
 }
 
