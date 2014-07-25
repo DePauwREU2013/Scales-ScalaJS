@@ -21,12 +21,35 @@ object ScalaJSExample extends js.JSApp {
 
     ///---------------///
     import Base._
+    import Reactive._
 
-    val g = Rectangle(80, 50).fill(Color.Red)
+    def fnMouse(xy: (Int, Int)): Graphic = {
+      paragraph.innerHTML += xy._1 + xy._2 + "  "
+      Shape(180, 180) {
+        (0.5, 0.5) lineTo
+        (0, 0) lineTo
+        (1, 0) lineTo
+        (1, 0.5) curveTo
+        (0.5, 1) lineTo
+        (0, 1)
+      }.strokeWidth(3).fill(Color.HotPink).stroke(Color.Aqua).translate(xy._1, xy._2)
+    }
 
-    val index = CanvasHandler.getIndex
-    CanvasHandler.setAll(index, Color.Blue, Color.Green, 10, "first")
-    CanvasHandler.addGraphic(g)
+    Reactor(MouseClick, fnMouse, Color.Red, Color.Yellow, 10)
+
+    // val g = Rectangle(80, 50).fill(Color.Red)
+
+    // val index = CanvasHandler.getIndex
+    // CanvasHandler.setAll(index, Color.Blue, Color.Green, 10, "first")
+    // CanvasHandler.addGraphic(g)
+
+
+
+
+
+
+
+
 
     // val canvas = dom.document.getElementById("output").asInstanceOf[dom.HTMLCanvasElement]
     // canvas.height = 200

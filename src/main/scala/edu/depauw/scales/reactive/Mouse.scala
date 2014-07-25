@@ -19,11 +19,13 @@ object MouseClick {
 		xy() = (newX, newY)
 	}
 
+	val boundingBox = Canvas.canvas.getBoundingClientRect()
+
 	private def listen() = Rx {
 
 		Canvas.canvas.onclick = {
 			(e: dom.MouseEvent) => {
-				updateXY(e.clientX.toInt, e.clientY.toInt)
+				updateXY((e.clientX - boundingBox.left).toInt, (e.clientY - boundingBox.top).toInt)
 			}
 		}
 	}
@@ -48,11 +50,13 @@ object MousePosition {
 		xy() = (newX, newY)
 	}
 
+	val boundingBox = Canvas.canvas.getBoundingClientRect()
+
 	private def listen() = Rx {
 
 		Canvas.canvas.onmousemove = {
 			(e: dom.MouseEvent) => {
-				updateXY(e.clientX.toInt, e.clientY.toInt)
+				updateXY((e.clientX - boundingBox.left).toInt, (e.clientY - boundingBox.top).toInt)
 			}
 		}
 	}
