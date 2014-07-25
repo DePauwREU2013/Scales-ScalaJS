@@ -24,7 +24,7 @@ object ScalaJSExample extends js.JSApp {
     import Reactive._
 
     def fnMouse(xy: (Int, Int)): Graphic = {
-      paragraph.innerHTML += xy._1 + xy._2 + "  "
+      //paragraph.innerHTML += xy._1 + xy._2 + "  "
       Shape(180, 180) {
         (0.5, 0.5) lineTo
         (0, 0) lineTo
@@ -35,13 +35,18 @@ object ScalaJSExample extends js.JSApp {
       }.strokeWidth(3).fill(Color.HotPink).stroke(Color.Aqua).translate(xy._1, xy._2)
     }
 
-    Reactor(MouseClick, fnMouse, Color.Red, Color.Yellow, 10)
+    def fnTime(t: Double): Graphic = {
+      (Ellipse(50,75).fill(Color.Blue) on Ellipse(75, 75).fill(Color.SeaGreen)).translate(t * 30, 100)
+    }
 
-    // val g = Rectangle(80, 50).fill(Color.Red)
+    def fnTime2(t: Double): Graphic = {
+      (Rectangle(80, 50).fill(Color.Lilac).stroke(Color.Red) beside Ellipse(50, 80).fill(Color.Mustard).rotate(20 deg)).translate(100, t * 50)
+    }
 
-    // val index = CanvasHandler.getIndex
-    // CanvasHandler.setAll(index, Color.Blue, Color.Green, 10, "first")
-    // CanvasHandler.addGraphic(g)
+    Reactor(MouseClick, fnMouse)
+    Reactor(ClockTick(1, 20), fnTime)
+    Reactor(ClockTick(5, 20), fnTime2)
+
 
 
 
