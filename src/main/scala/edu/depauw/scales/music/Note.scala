@@ -16,7 +16,7 @@ trait ScalesNote extends Scales {
 
 	def count: Int
 
-	def before(that: ScalesNote): SoundComposite = SoundComposite(this, that) //redefining these prob unnecessary
+	def before(that: ScalesNote): SoundComposite = SoundComposite(this, that)
 
 	def after(that: ScalesNote): SoundComposite = SoundComposite(that, this)
 
@@ -43,6 +43,31 @@ case class Note(freq: Double, dur: Double = 1, vol: Double = 1) extends ScalesNo
 		o.start(startTime)
 		o.stop(startTime + dur)
 	}
+
+	/*
+	** returns a new note moved up @params octaves
+	*/
+	def >(octaves: Int = 1): Note = {
+		val mult = math.pow(2, octaves)
+		Note(freq * mult, dur, vol)
+	}
+
+	def <(octaves: Int = 1): Note = {
+		val mult = math.pow(2, octaves)
+		Note(freq / mult, dur, vol)
+	}
+
+	/*
+	** returns a new note moved up 4 octaves
+	*/
+	def >>>> : Note = {
+		Note(freq * 16, dur, vol)
+	}
+
+	def <<<< : Note = {
+		Note(freq / 16, dur, vol)
+	}
+
 }
 
 case class SoundComposite(first: ScalesNote, second: ScalesNote) extends ScalesNote {
