@@ -43,30 +43,31 @@ object ScalaJSExample extends js.JSApp {
       (Rectangle(80, 50).fill(Color.Lilac).stroke(Color.Red) beside Ellipse(50, 80).fill(Color.Mustard).rotate(20 deg)).translate(100, t * 50)
     }
 
+    def fnNotes(xy: (Int, Int)): ScalesNote = {
+      (B after A)//(A.>(4) after B) par (C.<(1) after D.>>>>)
+    }
+
+    Reactor(MouseClick, fnNotes)
     Reactor(MouseClick, fnMouse)
     Reactor(ClockTick(1, 20), fnTime)
     Reactor(ClockTick(5, 20), fnTime2)
     //Reactor(MouseClickX, fnSounds)
 
 
-    val n1 = Note(444)
-    val n2 = Note(400)
-    val n3 = Note(600)
+    // val n1 = Note(444)
+    // val n2 = Note(400)
+    // val n3 = Note(600)
 
-    val n4 = Note(200, 1, 20)
-    val n5 = Note(100)
+    // val n4 = Note(200, 1, 20)
+    // val n5 = Note(100)
 
-    val seq1 = (((n1 before n2) before n3) par (n4 before n5))
+    // val seq1 = (((n1 before n2) before n3) par (n4 before n5))
 
-    val seq2 = ((Silent par Silent) before Silent.setDuration(3))
+    // val seq2 = ((Silent par Silent) before Silent.setDuration(3))
 
-    val seq3 = (((A.setVolume(.5) before A.setVolume(.75)) before A.setVolume(1)) before A.setVolume(.5))
+    // val seq3 = (((A.setVolume(.5) before A.setVolume(.75)) before A.setVolume(1)) before A.setVolume(.5))
 
-    ((seq1 before seq2) before seq3).play()
-
-    def fnNotes(t: Double): ScalesNote = {
-      (A.>(4) after B) par (C.<(1) after D.>>>>)
-    }
+    // ((seq1 before seq2) before seq3).play()
 
 
 
