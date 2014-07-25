@@ -23,6 +23,9 @@ trait ScalesNote extends Scales {
 	def par(that: ScalesNote): ParallelComposite = ParallelComposite(this, that)
 }
 
+/*
+** @params vol: between 0 - 1
+*/
 case class Note(freq: Double, dur: Double = 1, vol: Double = 1) extends ScalesNote {
 
 	def count = 1
@@ -68,6 +71,13 @@ case class Note(freq: Double, dur: Double = 1, vol: Double = 1) extends ScalesNo
 		Note(freq / 16, dur, vol)
 	}
 
+	def setVolume(newVol: Double): Note = {
+		Note(freq, dur, newVol)
+	}
+
+	def setDuration(newDur: Double): Note = {
+		Note(freq, newDur, vol)
+	}
 }
 
 case class SoundComposite(first: ScalesNote, second: ScalesNote) extends ScalesNote {

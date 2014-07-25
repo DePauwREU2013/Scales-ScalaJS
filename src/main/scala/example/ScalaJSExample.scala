@@ -56,7 +56,13 @@ object ScalaJSExample extends js.JSApp {
     val n4 = Note(200, 1, 20)
     val n5 = Note(100)
 
-    (((n1 before n2) before n3) par (n4 before n5)).play()
+    val seq1 = (((n1 before n2) before n3) par (n4 before n5))
+
+    val seq2 = ((Silent par Silent) before Silent.setDuration(3))
+
+    val seq3 = (((A.setVolume(.5) before A.setVolume(.75)) before A.setVolume(1)) before A.setVolume(.5))
+
+    ((seq1 before seq2) before seq3).play()
 
     def fnNotes(t: Double): ScalesNote = {
       (A.>(4) after B) par (C.<(1) after D.>>>>)
