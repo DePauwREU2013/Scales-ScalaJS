@@ -2,8 +2,9 @@ package edu.depauw.scales.graphics
 
 import Base._
 import org.scalajs.dom
+import edu.depauw.scales.music._
 
-trait Graphic {
+trait Graphic extends Scales {
   def bounds: Bounds
 
   def render(ctx: GraphicsContext): Unit
