@@ -25,7 +25,7 @@ object MouseClick {
 
 		Canvas.canvas.onclick = {
 			(e: dom.MouseEvent) => {
-				updateXY((e.clientX - boundingBox.left).toInt, (e.clientY - boundingBox.top).toInt)
+				updateXY((e.asInstanceOf[dom.Touch].pageX - boundingBox.left).toInt, (e.asInstanceOf[dom.Touch].pageY - boundingBox.top).toInt)
 			}
 		}
 	}
@@ -56,7 +56,7 @@ object MousePosition {
 
 		Canvas.canvas.onmousemove = {
 			(e: dom.MouseEvent) => {
-				updateXY((e.clientX - boundingBox.left).toInt, (e.clientY - boundingBox.top).toInt)
+				updateXY((e.asInstanceOf[dom.Touch].pageX - boundingBox.left).toInt, (e.asInstanceOf[dom.Touch].pageY - boundingBox.top).toInt)
 			}
 		}
 	}
