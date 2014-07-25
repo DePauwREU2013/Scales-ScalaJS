@@ -59,7 +59,7 @@ object ScalaJSExample extends js.JSApp {
     (((n1 before n2) before n3) par (n4 before n5)).play()
 
     def fnNotes(t: Double): ScalesNote = {
-      (A after B) par (C after D)
+      (A.>(4) after B) par (C.<(1) after D.>>>>)
     }
 
 
