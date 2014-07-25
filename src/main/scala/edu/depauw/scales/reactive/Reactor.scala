@@ -155,7 +155,7 @@ case class Reactor[T](reaction: Reactive, fn: T => Scales) {
 	}
 
 	val changes = Var(0)
-	def countChanges(): Int = changes()
+	def numChanges(): Int = changes()
 	def unsubscribe(): Unit = {
 		target.killAll()
 	}
@@ -172,7 +172,11 @@ case class Reactor[T](reaction: Reactive, fn: T => Scales) {
 				} else {
 					CanvasHandler.updateGraphic(index(), result.asInstanceOf[Graphic])
 				}
-			case x: Note => //do nothing because note plays itself automatically
+			case x: ScalesNote =>
+				x.play(0)
+			case _ =>
+			//case x: Note => //do nothing because note plays itself automatically
+			//case x: ScalaJSExample.ScalesNote => 
 		}
 	}
 }
