@@ -7,12 +7,8 @@ import rx._
 
 trait Scales {}
 
-object AudioContext {
-	val ctx = js.Dynamic.newInstance(js.Dynamic.global.AudioContext)()
-}
-
 trait ScalesNote extends Scales {
-	//val ctx = js.Dynamic.newInstance(js.Dynamic.global.AudioContext)()
+	val ctx = js.Dynamic.newInstance(js.Dynamic.global.AudioContext)()
 
 	def play(t: Double): Unit
 
@@ -20,21 +16,14 @@ trait ScalesNote extends Scales {
 
 	def count: Int
 
-	def before(that: ScalesNote): SoundComposite
+	def before(that: ScalesNote): SoundComposite = SoundComposite(this, that) //redefining these prob unnecessary
 
-	def after(that: ScalesNote): SoundComposite
+	def after(that: ScalesNote): SoundComposite = SoundComposite(that, this)
 
-	def par(that: ScalesNote): ParallelComposite
-
-	// def before(that: ScalesNote): SoundComposite = SoundComposite(this, that) //redefining these prob unnecessary
-
-	// def after(that: ScalesNote): SoundComposite = SoundComposite(that, this)
-
-	// def par(that: ScalesNote): ParallelComposite = ParallelComposite(this, that)
+	def par(that: ScalesNote): ParallelComposite = ParallelComposite(this, that)
 }
 
 case class Note(freq: Double, dur: Double = 1, vol: Double = 1) extends ScalesNote {
-	val ctx = AudioContext.ctx
 
 	def count = 1
 
@@ -54,17 +43,9 @@ case class Note(freq: Double, dur: Double = 1, vol: Double = 1) extends ScalesNo
 		o.start(startTime)
 		o.stop(startTime + dur)
 	}
-
-	def before(that: ScalesNote): SoundComposite = SoundComposite(this, that)
-
-	def after(that: ScalesNote): SoundComposite = SoundComposite(that, this)
-
-	def par(that: ScalesNote): ParallelComposite = ParallelComposite(this, that)
 }
 
 case class SoundComposite(first: ScalesNote, second: ScalesNote) extends ScalesNote {
-
-	val ctx = AudioContext.ctx
 
 	def count = first.count + second.count
 
@@ -76,15 +57,9 @@ case class SoundComposite(first: ScalesNote, second: ScalesNote) extends ScalesN
 		second.play(startTime + first.duration)
 	}
 
-	def before(that: ScalesNote): SoundComposite = SoundComposite(this, that) //redefining these prob unnecessary
-
-	def after(that: ScalesNote): SoundComposite = SoundComposite(that, this)
-
-	def par(that: ScalesNote): ParallelComposite = ParallelComposite(this, that)
 }
 
 case class ParallelComposite(first: ScalesNote, second: ScalesNote) extends ScalesNote {
-	val ctx = AudioContext.ctx
 
 	def count = first.count + second.count
 
@@ -95,12 +70,6 @@ case class ParallelComposite(first: ScalesNote, second: ScalesNote) extends Scal
 		first.play(startTime)
 		second.play(startTime)
 	}
-
-	def before(that: ScalesNote): SoundComposite = SoundComposite(this, that) //redefining these prob unnecessary
-
-	def after(that: ScalesNote): SoundComposite = SoundComposite(that, this)
-
-	def par(that: ScalesNote): ParallelComposite = ParallelComposite(this, that)
 }
 
 /*
