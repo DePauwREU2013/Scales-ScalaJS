@@ -6,6 +6,7 @@ import rx._
 
 import edu.depauw.scales.graphics._
 import edu.depauw.scales.reactive._
+import edu.depauw.scales.music._
 
 object window extends js.Object {
   val innerHeight: Int = ???
@@ -22,6 +23,7 @@ object ScalaJSExample extends js.JSApp {
     ///---------------///
     import Base._
     import Reactive._
+    import Audio._
 
     def fnMouse(xy: (Int, Int)): Graphic = {
       //paragraph.innerHTML += xy._1 + xy._2 + "  "
@@ -43,9 +45,19 @@ object ScalaJSExample extends js.JSApp {
       (Rectangle(80, 50).fill(Color.Lilac).stroke(Color.Red) beside Ellipse(50, 80).fill(Color.Mustard).rotate(20 deg)).translate(100, t * 50)
     }
 
+    def fnMusic(x: Int): Note = {
+      Note(NoRamp, x, 0)
+    }
+
+    def fnSounds(x: Int): NoteSeq = {
+      NoteSeq(Note(NoRamp, x, 0, 1), Note(NoRamp, x * 2, 1, 2), Note(NoRamp, x * 3, 2, 3))
+
+    }
+
     Reactor(MouseClick, fnMouse)
     Reactor(ClockTick(1, 20), fnTime)
     Reactor(ClockTick(5, 20), fnTime2)
+    Reactor(MouseClickX, fnSounds)
 
 
 
