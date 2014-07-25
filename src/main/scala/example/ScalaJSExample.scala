@@ -23,10 +23,8 @@ object ScalaJSExample extends js.JSApp {
     ///---------------///
     import Base._
     import Reactive._
-    import Audio._
 
     def fnMouse(xy: (Int, Int)): Graphic = {
-      //paragraph.innerHTML += xy._1 + xy._2 + "  "
       Shape(180, 180) {
         (0.5, 0.5) lineTo
         (0, 0) lineTo
@@ -45,75 +43,25 @@ object ScalaJSExample extends js.JSApp {
       (Rectangle(80, 50).fill(Color.Lilac).stroke(Color.Red) beside Ellipse(50, 80).fill(Color.Mustard).rotate(20 deg)).translate(100, t * 50)
     }
 
-    // def fnMusic(x: Int): Note = {
-    //   Note(NoRamp, x, 0)
-    // }
-
-    // def fnSounds(x: Int): NoteSeq = {
-    //   NoteSeq(Note(NoRamp, x, 0, 1), Note(NoRamp, x * 2, 1, 2), Note(NoRamp, x * 3, 2, 3))
-
-    // }
-
     Reactor(MouseClick, fnMouse)
     Reactor(ClockTick(1, 20), fnTime)
     Reactor(ClockTick(5, 20), fnTime2)
     //Reactor(MouseClickX, fnSounds)
 
-    trait ScalesNote {
-      def play(t: Int): Unit
 
-      def length: Int
+    val n1 = Note(444)
+    val n2 = Note(400)
+    val n3 = Note(600)
 
-      def before(that: ScalesNote): SoundComposite 
+    val n4 = Note(200, 1, 20)
+    val n5 = Note(100)
+
+    (((n1 before n2) before n3) par (n4 before n5)).play()
+
+    def fnNotes(t: Double): ScalesNote = {
+      (A after B) par (C after D)
     }
 
-    object Sound {
-      val ctx = Audio.audioContext
-
-      def apply(freq: Double): Note = {
-        Note(freq)
-      }
-    }
-
-    case class Note(freq: Double) extends ScalesNote {
-      val ctx = Audio.audioContext
-
-      def length = 1
-
-      def play(time: Int = 0): Unit = {
-        val o = ctx.createOscillator()
-        val g = ctx.createGain()
-
-        o.frequency.value = freq
-        g.gain.value = 1
-
-        o.connect(g)
-        g.connect(ctx.destination)
-
-        o.start(ctx.currentTime.toString.toInt + time)
-        o.stop(ctx.currentTime.toString.toInt + time + 2)
-      }
-
-      def before(that: ScalesNote): SoundComposite = SoundComposite(this, that)
-    }
-
-    case class SoundComposite(first: ScalesNote, second: ScalesNote) extends ScalesNote {
-      val ctx = Audio.audioContext
-
-      def length = first.length + second.length
-
-      def before(that: ScalesNote): SoundComposite = SoundComposite(this, that)
-
-      def play(time: Int = 0) {
-        first.play(time + ctx.currentTime.toString.toInt)
-        second.play(time + ctx.currentTime.toString.toInt + (2 * first.length))
-      }
-    }
-
-
-    val sounds = ((Sound(300) before Sound(444)) before Sound(600)).play()
-    //dom.alert("total sounds: " + sounds.length)
-    //SoundComposite(Sound(200), Sound(444)).play()
 
 
 
