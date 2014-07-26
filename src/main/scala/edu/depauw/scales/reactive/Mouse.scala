@@ -14,6 +14,7 @@ object MouseClick {
 	val xy = Var((0, 0))
 	val x = Rx { xy()._1 }
 	val y = Rx { xy()._2 }
+	val changes = Var(0)
 
 	private def updateXY(newX: Int, newY: Int): Unit = {
 		xy() = (newX, newY)
@@ -26,6 +27,7 @@ object MouseClick {
 		Canvas.canvas.onclick = {
 			(e: dom.MouseEvent) => {
 				updateXY((e.asInstanceOf[dom.Touch].pageX - boundingBox.left).toInt, (e.asInstanceOf[dom.Touch].pageY - boundingBox.top).toInt)
+				changes() += 1
 			}
 		}
 	}
@@ -35,6 +37,7 @@ object MouseClick {
 	def subscribe(): Rx[(Int, Int)] = xy
 	def subscribeX(): Rx[Int] = x
 	def subscribeY(): Rx[Int] = y
+	def subscribeChanges(): Rx[Int] = changes
 }
 
 /*
@@ -45,6 +48,7 @@ object MousePosition {
 	val xy = Var((0, 0))
 	val x = Rx { xy()._1 }
 	val y = Rx { xy()._2 }
+	val changes = Var(0)
 
 	private def updateXY(newX: Int, newY: Int): Unit = {
 		xy() = (newX, newY)
@@ -57,6 +61,7 @@ object MousePosition {
 		Canvas.canvas.onmousemove = {
 			(e: dom.MouseEvent) => {
 				updateXY((e.asInstanceOf[dom.Touch].pageX - boundingBox.left).toInt, (e.asInstanceOf[dom.Touch].pageY - boundingBox.top).toInt)
+				changes() += 1
 			}
 		}
 	}
@@ -66,4 +71,5 @@ object MousePosition {
 	def subscribe(): Rx[(Int, Int)] = xy
 	def subscribeX(): Rx[Int] = x
 	def subscribeY(): Rx[Int] = y
+	def subscribeChanges(): Rx[Int] = changes
 }

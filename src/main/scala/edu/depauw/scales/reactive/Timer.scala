@@ -18,10 +18,13 @@ case class Timer(framesPerSecond: Double, duration: Double) {
 	val currFrame = Rx {(timeElapsed() / frameSpeed).toInt}
 	val frameBasedTime = Rx{(currFrame() * frameSpeed) / 1000}
 
+	val changes = Var(0)
+
 	private def listen() {
 		currentTime() = new js.Date().getTime()
 		if(currFrame() >= totalFrames) {}
 		else {
+			changes() += 1
 			val timeError = timeElapsed() - (frameBasedTime() * 1000)
 			dom.setTimeout(() => listen(), (frameSpeed - timeError))
 		}
@@ -31,4 +34,5 @@ case class Timer(framesPerSecond: Double, duration: Double) {
 	dom.setTimeout(() => listen(), frameSpeed)
 
 	def subscribe(): Rx[Double] = frameBasedTime
+	def subscribeChanges(): Rx[Int] = changes
 }

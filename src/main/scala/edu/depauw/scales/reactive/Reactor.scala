@@ -154,15 +154,12 @@ case class Reactor[T](reaction: Reactive, fn: T => Scales) {
 		CanvasHandler.addGraphic(g)
 	}
 
-	val changes = Var(0)
-	def numChanges(): Int = changes()
 	def unsubscribe(): Unit = {
 		target.killAll()
 	}
 
 	Obs(target) {
 		val result = function(target())
-		changes() += 1
 
 		result match {
 			case x: Graphic =>

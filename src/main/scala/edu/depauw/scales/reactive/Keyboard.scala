@@ -12,16 +12,21 @@ import rx._
 */
 object Keyboard {
 	val keyPressedCode = Var(0)
+	val changes = Var(0)
 
 	private def listen() = Rx {
 		dom.onkeydown = { 
-			(e: dom.KeyboardEvent) => keyPressedCode() = e.keyCode
+			(e: dom.KeyboardEvent) => {
+				keyPressedCode() = e.keyCode
+				changes() += 1
+			}
 		}
 	}
 
 	listen()
 
 	def subscribe(): Rx[Int] = keyPressedCode
+	def subscribeChanges(): Rx[Int] = changes
 }
 
 /*
@@ -87,6 +92,7 @@ import Key._
 case class KeyPress(key: Key.KeyType) {	
 	val keyboard = Keyboard.subscribe
 	val timesPressed = Var(0)
+	val changes = Rx{timesPressed()}
 
 	Obs(keyboard) {
 		(keyboard() == key) match {
@@ -96,4 +102,5 @@ case class KeyPress(key: Key.KeyType) {
 	}
 
 	def subscribe(): Rx[Int] = timesPressed
+	def subscribeChanges(): Rx[Int] = changes
 }
