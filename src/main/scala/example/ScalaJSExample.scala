@@ -185,14 +185,23 @@ object ScalaJSExample extends js.JSApp {
     (0, RegularBullet, lorem2)
   )
 
-  def display(index: Int): Graphic = {
+
+  val currentSlideText: Var[Graphic] = Var(Text(""))
+
+  def getDisplay(index: Int): Graphic = {
     val current = slideStuff(index)
-    //paragraph.innerHTML += current._3
-    stringToGraphic(current._3, current._2)
+
+    val g = stringToGraphic(current._3, current._2)
+    if(current._1 == 1) currentSlideText() = g
+    else currentSlideText() = (currentSlideText() above g)
+    currentSlideText()
   }
 
-  val g = display(3)
+  val g = getDisplay(0)
   g.render(Canvas.ctx)
+
+  val g2 = getDisplay(2)
+  g2.render(Canvas.ctx)
 
 
 
