@@ -16,7 +16,6 @@ sealed trait Reactive {}
 
 case class CTick(val fps: Double, val dur: Double) extends Reactive
 case class KPress(val key: Key.KeyType) extends Reactive
-case class KPressAny() extends Reactive
 case class MClick() extends Reactive
 case class MPos() extends Reactive
 
@@ -44,7 +43,6 @@ case class MPosChanges() extends Reactive
 object Reactive {
 	def ClockTick(framesPerSecond: Double, duration: Double) = CTick(framesPerSecond, duration)
 	def KeyPress(key: Key.KeyType) = KPress(key)
-	def KeyPress() = KPressAny()
 	def MouseClick() = MClick()
 	def MousePosition() = MPos()
 
@@ -81,16 +79,6 @@ case class Reactor[T](reaction: Reactive, fn: T => Scales) {
 
 		case x: KPress =>
 			KeyPress(x.key).subscribe
-
-		case x: KPressAny => {
-			Keyboard.subscribeChanges
-			// val key_sub = Keyboard.subscribe
-			// val rx = Var(0)
-			// Obs(key_sub) {
-			// 	rx() += 1
-			// }
-			// rx
-		}
 
 		case x: MClick => 
 			MouseClick.subscribe
@@ -174,7 +162,7 @@ case class Reactor[T](reaction: Reactive, fn: T => Scales) {
 		case x: MPosChanges =>
 			MousePosition.subscribeChanges
 
-		case _ => Var(0) // default value never changes
+		case _ => Var(0)
 	}
 
 	val index = Var(-1)
@@ -200,7 +188,7 @@ case class Reactor[T](reaction: Reactive, fn: T => Scales) {
 				}
 			case x: ScalesNote =>
 				if(index() == -1) {
-					index() = 0 //so that note doesn't play immediately on load
+					index() = 0
 				} else {
 					x.play(0)
 				}
