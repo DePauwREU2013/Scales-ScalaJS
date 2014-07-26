@@ -31,6 +31,12 @@ case class MPosGetCTime() extends Reactive
 case class KPressGetCTime(val key: Key.KeyType) extends Reactive
 case class KPressAnyGetCTime() extends Reactive
 
+case class CTickChanges(val fps: Double, val dur: Double) extends Reactive
+case class KPressChanges(val key: Key.KeyType) extends Reactive
+case class KPressAnyChanges() extends Reactive
+case class MClickChanges() extends Reactive
+case class MPosChanges() extends Reactive
+
 /*
 ** Usage example: Reactor(Reactive.ClockTick(Double, Double), ...)  
 ** The example above creates a reactor that reacts to clock ticks
@@ -170,7 +176,11 @@ case class Reactor[T](reaction: Reactive, fn: T => Scales) {
 					CanvasHandler.updateGraphic(index(), result.asInstanceOf[Graphic])
 				}
 			case x: ScalesNote =>
-				x.play(0)
+				if(index() == -1) {
+					index() = 0 //so that note doesn't play immediately on load
+				} else {
+					x.play(0)
+				}
 			case _ =>
 		}
 	}
