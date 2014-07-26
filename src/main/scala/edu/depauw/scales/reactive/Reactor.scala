@@ -58,6 +58,13 @@ object Reactive {
 	def MousePositionGetClockTime() = MPosGetCTime()
 	def KeyPressGetClockTime(key: Key.KeyType) = KPressGetCTime(key)
 	def KeyPressGetClockTime() = KPressAnyGetCTime() 
+
+	def ClockTickChanges(framesPerSecond: Double, duration: Double) = CTickChanges(framesPerSecond, duration)
+	def KeyPressChanges(key: Key.KeyType) = KPressChanges(key)
+	def KeyPressAnyChanges = KPressAnyChanges()
+	def MouseClickChanges = MClickChanges()
+	def MousePositionChanges = MPosChanges()
+
 }
 
 /*
