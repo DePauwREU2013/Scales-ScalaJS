@@ -83,12 +83,13 @@ case class Reactor[T](reaction: Reactive, fn: T => Scales) {
 			KeyPress(x.key).subscribe
 
 		case x: KPressAny => {
-			val key_sub = Keyboard.subscribe
-			val rx = Var(0)
-			Obs(key_sub) {
-				rx() += 1
-			}
-			rx
+			Keyboard.subscribeChanges
+			// val key_sub = Keyboard.subscribe
+			// val rx = Var(0)
+			// Obs(key_sub) {
+			// 	rx() += 1
+			// }
+			// rx
 		}
 
 		case x: MClick => 
@@ -157,6 +158,21 @@ case class Reactor[T](reaction: Reactive, fn: T => Scales) {
 			}
 			rx
 		}
+
+		case x: CTickChanges => 
+			Timer(x.fps, x.dur).subscribeChanges
+
+		case x: KPressChanges =>
+			KeyPress(x.key).subscribeChanges
+
+		case x: KPressAnyChanges => 
+			Keyboard.subscribeChanges
+
+		case x: MClickChanges =>
+			MouseClick.subscribeChanges
+
+		case x: MPosChanges =>
+			MousePosition.subscribeChanges
 
 		case _ => Var(0) // default value never changes
 	}
