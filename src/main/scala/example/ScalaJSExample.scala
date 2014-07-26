@@ -8,6 +8,29 @@ import edu.depauw.scales.graphics._
 import edu.depauw.scales.reactive._
 import edu.depauw.scales.music._
 
+trait FontType {
+  def font: String = "serif"
+  def fontSize: Int
+  def color: Base.Color
+}
+case object Title extends FontType { 
+  def fontSize = 48
+  def color = Base.Color.HotPink
+}
+case object Subtitle extends FontType {
+  def fontSize = 30
+  def color = Base.Color.SeaGreen
+}
+case object RegularBullet extends FontType {
+  def fontSize = 20
+  def color = Base.Color.Black
+}
+case object Regular extends FontType {
+  def fontSize = 20
+  def color = Base.Color.Black
+}
+case class Custom(val fontSize: Int, val color: Base.Color) extends FontType {}
+
 object window extends js.Object {
   val innerHeight: Int = ???
 }
@@ -47,27 +70,38 @@ object ScalaJSExample extends js.JSApp {
       (B after A)//(A.>(4) after B) par (C.<(1) after D.>>>>)
     }
 
-    Reactor(MouseClick, fnNotes)
-    Reactor(MouseClick, fnMouse)
-    Reactor(ClockTick(1, 20), fnTime)
-    Reactor(ClockTick(5, 20), fnTime2)
+    // Reactor(MouseClick, fnNotes)
+    // Reactor(MouseClick, fnMouse)
+    // Reactor(ClockTick(1, 20), fnTime)
+    // Reactor(ClockTick(5, 20), fnTime2)
     //Reactor(MouseClickX, fnSounds)
 
+    def stringToGraphic(text: String, font: FontType = Regular): Graphic = font match {
+      case Title =>
+        val g = Text(text, Font(font.font, font.fontSize), false).fill(font.color)
+        //paragraph.innerHTML += "Width: " + g.bounds.width + "Padding: " + (Canvas.canvas.width - g.bounds.width) / 2
+        val gPrime = g.tl.translate((Canvas.canvas.width - g.bounds.width) / 2, 0)//.showBounds
+        gPrime
+      case Subtitle =>
+        val g = Text(text, Font(font.font, font.fontSize), false).fill(font.color)
+        //paragraph.innerHTML += "Width: " + g.bounds.width + "Padding: " + (Canvas.canvas.width - g.bounds.width) / 2
+        val gPrime = g.tl.translate((Canvas.canvas.width - g.bounds.width) / 2, 0)//.showBounds
+        gPrime
+      case RegularBullet =>
+        val g = Rectangle(10, 10).pad(1).tl beside (Text(text, Font(font.font, font.fontSize), false).fill(font.color).tl)
+        val newBounds = RectBounds(g.bounds.left, g.bounds.right, g.bounds.top - 10, g.bounds.bottom)
+        Bounded(g, newBounds)
+      case Regular =>
+        (Text(text, Font(font.font, font.fontSize), false).fill(font.color).tl)
+      case Custom(_, _) =>
+        (Text(text, Font(font.font, font.fontSize), false).fill(font.color).tl)//.showBounds
+    }
 
-    // val n1 = Note(444)
-    // val n2 = Note(400)
-    // val n3 = Note(600)
-
-    // val n4 = Note(200, 1, 20)
-    // val n5 = Note(100)
-
-    // val seq1 = (((n1 before n2) before n3) par (n4 before n5))
-
-    // val seq2 = ((Silent par Silent) before Silent.setDuration(3))
-
-    // val seq3 = (((A.setVolume(.5) before A.setVolume(.75)) before A.setVolume(1)) before A.setVolume(.5))
-
-    // ((seq1 before seq2) before seq3).play()
+    // val text1 = stringToGraphic("Presentation: SCALES IDE", Title)
+    // val text2 = stringToGraphic("By Anonymous x 3", Subtitle)
+    // val text3 = stringToGraphic(" Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", 
+    //   RegularBullet)
+    // (text1 above text2 above text3).render(Canvas.ctx)
 
 
 
@@ -75,69 +109,42 @@ object ScalaJSExample extends js.JSApp {
 
 
 
-
-    // val canvas = dom.document.getElementById("output").asInstanceOf[dom.HTMLCanvasElement]
-    // canvas.height = 200
-    // canvas.width = 600
-
-    // val p2 = dom.document.createElement("p")
-    // p2.innerHTML = s"${canvas.width} by ${canvas.height}"
-    // playground.appendChild(p2)
-
-    // import Base._
-
-    // val g0 = Rectangle(80, 50).stroke(Color.Red) beside Ellipse(50, 80).rotate(20 deg).translate(0, 50)
-    // val g1 = g0.fill(RGBA(0, 255, 0, 0.5)).strokeWidth(5)
-
-    // val bowtie = Polygon((0, 0), (50, 0), (0, 80), (50, 80))
-    // val g2 = RegPoly(30, 7).fill(Color.Blue) on bowtie.center.fill(HSL(300 deg, 1.0, 0.5))
-
-    // val g3 = (Rectangle(50, 50).top beside Rectangle(30, 70).top).fill(Color.Orange)
-
-    // val p = List(
-    //   PointSegment(0, 0), LineSegment(1, 1),
-    //   PointSegment(0, 0), LineSegment(0, 1), LineSegment(1, 1), LineSegment(1, 0), CloseSegment)
-    // val g4 = Shape(p, RectBounds(0, 100, 0, 100)).fill(Color.Clear).stroke(Color.Blue).strokeWidth(5)
-
-    // val g5 = Polyline((0, 0), (80, 0), (0, 50), (80, 50))
-
-    // val g6 = Shape(180, 180) {
-    //   (0.5, 0.5) lineTo
-    //   (0, 0) lineTo
-    //   (1, 0) lineTo
-    //   (1, 0.5) curveTo
-    //   (0.5, 1) lineTo
-    //   (0, 1)
-    // }.strokeWidth(3).fill(Color.Aqua).stroke(Color.Black)
-
-    // val g7 = RegPoly(30, 5, 2).fill(Color.Brown).stroke(Color.Clear)
-
-    // val g8 = Bitmap(50, 50) { (x, y) =>
-    //   HSL(x rev, y, 0.5)
-    // }
-
-    // val g9 = g1.pad(0.05).freeze.scale(0.5)
-
-    // val g10 = Image("bth.jpg", 70, 80)
-
-    // val g = (
-    //   (g4.bl on g1.showBounds).pad(0.1).top beside
-    //     ((g3 beside HSpace(10) beside g5) above
-    //       VSpace(10) above
-    //       (g2 beside HSpace(10) beside g10.center)).pad(0.1).top beside
-    //     (g7 above g8.center).pad(0.1).top beside
-    //     (g9.br on g6.right).pad(0.1).top).center above
-    //   (Text("Hello ", Font("serif", 48)).fill(Color.HotPink) beside
-    //     Text("World!", Font("serif", 48), true).stroke(Color.SeaGreen)
-    // ).pad(0.2).center
-
-    // dom.setTimeout(() => g.displayOn(canvas), 1000) // wait for the image to have loaded...
-    
+  def takeWords(words: Array[String], graphic: Graphic, font: FontType): (Graphic, Array[String]) = words.length match {
+    case 0 => (graphic, words)
+    case _ =>
+      val newGraphic = graphic beside Text(" " + words(0), Font(font.font, font.fontSize), false).fill(font.color)
+      if(newGraphic.bounds.width < Canvas.canvas.width) return takeWords(words.tail, newGraphic, font)
+      else return (graphic, words)
   }
 
-  /**
-   * Computes the square of an integer.
-   *  This demonstrates unit testing.
-   */
-  def square(x: Int): Int = x * x
+  // for splitting text so that it fits on canvas
+  def splitAll(words: Array[String], graphics: Array[Graphic], font: FontType): Array[Graphic] = words.length match {
+    case 0 => graphics
+    case _ =>
+      val (g, rest) = takeWords(words, Text(""), font)
+      splitAll(rest, graphics :+ g, font)
+  }
+
+  def handleTexts(texts: Array[Graphic]): Graphic = texts.length match {
+    case 1 => texts(0).tl
+    case _ => texts(0).tl above handleTexts(texts.tail)
+  }
+
+  val loremIpsum = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. " + 
+    "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. "+
+    "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. " +
+    "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+
+  val arrLoremIpsum = loremIpsum.split(" ")
+
+  val graphics = splitAll(arrLoremIpsum, Array[Graphic](), Regular)
+
+  val finalGraphic = handleTexts(graphics)
+
+  finalGraphic.render(Canvas.ctx)
+
+
+
+  }
+
 }
