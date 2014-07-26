@@ -9,27 +9,29 @@ import edu.depauw.scales.reactive._
 import edu.depauw.scales.music._
 
 trait FontType {
-  def font: String = "serif"
-  def fontSize: Int
-  def color: Base.Color
+  val font: String = "serif"
+  val fontSize: Int
+  val color: Base.Color
 }
 case object Title extends FontType { 
-  def fontSize = 48
-  def color = Base.Color.HotPink
+  val fontSize = 48
+  val color = Base.Color.HotPink
 }
 case object Subtitle extends FontType {
-  def fontSize = 30
-  def color = Base.Color.SeaGreen
+  val fontSize = 30
+  val color = Base.Color.SeaGreen
 }
 case object RegularBullet extends FontType {
-  def fontSize = 20
-  def color = Base.Color.Black
+  val fontSize = 20
+  val color = Base.Color.Black
 }
-// case object Regular extends FontType {
-//   def fontSize = 20
-//   def color = Base.Color.Black
-// }
-case class Custom(val fontSize: Int, val color: Base.Color) extends FontType {}
+case object Regular extends FontType {
+  val fontSize = 20
+  val color = Base.Color.Black
+}
+case class Custom(val f: String, val fontSize: Int, val color: Base.Color) extends FontType {
+  override val font = f
+}
 
 object window extends js.Object {
   val innerHeight: Int = ???
@@ -118,53 +120,80 @@ object ScalaJSExample extends js.JSApp {
 
 
 
-    def stringToGraphic(text: String, font: FontType = RegularBullet): Graphic = font match {
+      def stringToGraphic(text: String, font: FontType = RegularBullet): Graphic = font match {
       case Title =>
-        val g = Text(text, Font(font.font, font.fontSize), false).fill(font.color)
-        //paragraph.innerHTML += "Width: " + g.bounds.width + "Padding: " + (Canvas.canvas.width - g.bounds.width) / 2
-        val gPrime = g.tl.translate((Canvas.canvas.width - g.bounds.width) / 2, 0)//.showBounds
+        val arr = text.split(" ")
+        val graphics = splitAll(arr, Array[Graphic](), Title)
+        val g = handleTexts(graphics)
+
+        //val g = Text(text, Font(font.font, font.fontSize), false).fill(font.color)
+        val gPrime = g.tl.translate((Canvas.canvas.width - g.bounds.width) / 2, 0)
         gPrime
       case Subtitle =>
-        val g = Text(text, Font(font.font, font.fontSize), false).fill(font.color)
-        //paragraph.innerHTML += "Width: " + g.bounds.width + "Padding: " + (Canvas.canvas.width - g.bounds.width) / 2
-        val gPrime = g.tl.translate((Canvas.canvas.width - g.bounds.width) / 2, 0)//.showBounds
+        val arr = text.split(" ")
+        val graphics = splitAll(arr, Array[Graphic](), Subtitle)
+        val g = handleTexts(graphics)
+
+        //val g = Text(text, Font(font.font, font.fontSize), false).fill(font.color)
+        val gPrime = g.tl.translate((Canvas.canvas.width - g.bounds.width) / 2, 0)
         gPrime
       case RegularBullet =>
         val bullet = Rectangle(10, 10).pad(1.5).tl 
-
         val arr = text.split(" ")
         val graphics = splitAll(arr, Array[Graphic](), RegularBullet)
         val finalGraphic = handleTexts(graphics)
-
         val g = bullet beside finalGraphic
-        //val g = (Text(text, Font(font.font, font.fontSize), false).fill(font.color).tl)
-        
-
         val newBounds = RectBounds(g.bounds.left, g.bounds.right, g.bounds.top - 10, g.bounds.bottom)
         Bounded(g, newBounds)
-      // case Regular =>
-      //   (Text(text, Font(font.font, font.fontSize), false).fill(font.color).tl)
-      case Custom(_, _) =>
-        (Text(text, Font(font.font, font.fontSize), false).fill(font.color).tl)//.showBounds
+      case Regular =>
+        val arr = text.split(" ")
+        val graphics = splitAll(arr, Array[Graphic](), Regular)
+        handleTexts(graphics)
+      case Custom(_, _, _) =>
+        val arr = text.split(" ")
+        val graphics = splitAll(arr, Array[Graphic](), font)
+        handleTexts(graphics)
     }
 
-    val text1 = stringToGraphic("Presentation: SCALES IDE", Title)
-    val text2 = stringToGraphic("By Anonymous x 3", Subtitle)
-    //val text3 = stringToGraphic(" Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", RegularBullet)
-    val texts = (text1 above text2)//.render(Canvas.ctx)
 
-    val text3 = stringToGraphic(loremIpsum, RegularBullet)
-    val text4 = stringToGraphic(lorem2, RegularBullet)
-    ((texts above text3) above text4).render(Canvas.ctx)
+    val title1 = "Presentation: SCALES IDE"
+    val subtitle1 = "By Anonymous x 3"
+
+    // val text1 = stringToGraphic(title1, Title)
+    // val text2 = stringToGraphic(subtitle1, Subtitle)
+    // val texts = (text1 above text2)//.render(Canvas.ctx)
+
+    // val text3 = stringToGraphic(loremIpsum, RegularBullet)
+    // val text4 = stringToGraphic(lorem2, RegularBullet)
+    // ((texts above text3) above text4).render(Canvas.ctx)
 
 
-  // val arrLoremIpsum = loremIpsum.split(" ")
 
-  // val graphics = splitAll(arrLoremIpsum, Array[Graphic](), Regular)
 
-  // val finalGraphic = handleTexts(graphics)
 
-  // (texts above finalGraphic).render(Canvas.ctx)
+
+
+
+  //todo: put texts in an array or list and get each one out individually to turn into graphics
+  //var currentSlideGraphics(), and know when to clear graphics
+  //respond to clicks
+
+  val slideStuff: List[(Int, FontType, String)] = List(
+    (1, Title, title1),
+    (0, Subtitle, subtitle1),
+    (0, RegularBullet, loremIpsum),
+    (0, RegularBullet, lorem2)
+  )
+
+  def display(index: Int): Graphic = {
+    val current = slideStuff(index)
+    //paragraph.innerHTML += current._3
+    stringToGraphic(current._3, current._2)
+  }
+
+  val g = display(3)
+  g.render(Canvas.ctx)
+
 
 
 
