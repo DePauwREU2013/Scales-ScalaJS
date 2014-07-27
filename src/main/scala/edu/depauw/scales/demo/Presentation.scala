@@ -46,9 +46,8 @@ object Presentation {
     "Morbi sagittis molestie urna et vehicula. Nam ornare mauris quis risus faucibus, ut pharetra tortor hendrerit. " + 
     "Praesent eu sollicitudin ante. Vestibulum nec varius sem. Cras mi nibh, interdum non lobortis eu, blandit euismod tellus. " 
 
-
-	val text = List(
-		(1, Title, title1),
+  val text = List(
+    (1, Title, title1),
     (0, Subtitle, subtitle1),
     (0, RegularBullet, lorem1),
     (0, RegularBullet, lorem2),
