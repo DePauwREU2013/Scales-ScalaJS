@@ -25,9 +25,8 @@ object ScalaJSExample extends js.JSApp {
     import Base._
     import Reactive._
     import PowerPoint._
-
-    Reactor(MouseClickChanges, getDisplay)
-
+    
+    Reactor(KeyPress, getDisplay)
 
   }
 
