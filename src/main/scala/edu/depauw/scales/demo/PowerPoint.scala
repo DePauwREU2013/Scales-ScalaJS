@@ -39,8 +39,6 @@ case class Custom(override val font: String, val fontSize: Int, val color: Base.
 object PowerPoint {
 
   import Presentation._
-
-  val currentSlideText: Var[Graphic] = Var(Text(""))
   
   def takeWords(words: Array[String], graphic: Graphic, font: FontType): (Graphic, Array[String]) = words.length match {
     case 0 => (graphic, words)
@@ -91,15 +89,35 @@ object PowerPoint {
       handleTexts(graphics)
   }
 
-  def getDisplay(index: Int): Graphic = {
-    if(index > text.length - 1) return currentSlideText()
+  val currentSlideText: Var[Graphic] = Var(Text(""))
+  val history: Var[List[Graphic]] = Var(Nil) 
+  val index: Var[Int] = Var(-1)
 
-    val current = text(index)
 
-    val g = stringToGraphic(current._3, current._2)
-    if(current._1 == 1) currentSlideText() = g
-    else currentSlideText() = (currentSlideText() above g)
+
+  import Base._
+  def getDisplay(key: Int): Graphic = {
+    if(key == Key.Right) {
+      if(index() < text.length - 1) {
+        index() += 1
+        history() = history() :+ currentSlideText()
+
+        val (indicator, font, txt) = text(index())
+        val g = stringToGraphic(txt, font)
+        if(indicator == 1) currentSlideText() = g
+        else currentSlideText() = (currentSlideText() above g)
+      }
+    }
+    else if(key == Key.Left) {
+      if(index() > 0) {
+        index() -= 1
+
+        currentSlideText() = history().last
+        history() = history().init
+      } 
+    }
     currentSlideText()
   }
+
 
 }
