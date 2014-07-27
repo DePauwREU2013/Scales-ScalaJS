@@ -29,9 +29,7 @@ case object Regular extends FontType {
   val fontSize = 20
   val color = Base.Color.Black
 }
-case class Custom(val f: String, val fontSize: Int, val color: Base.Color) extends FontType {
-  override val font = f
-}
+case class Custom(override val font: String, val fontSize: Int, val color: Base.Color) extends FontType {}
 
 object window extends js.Object {
   val innerHeight: Int = ???
@@ -182,6 +180,9 @@ object ScalaJSExample extends js.JSApp {
     (1, Title, title1),
     (0, Subtitle, subtitle1),
     (0, RegularBullet, loremIpsum),
+    (0, RegularBullet, lorem2),
+    (1, Title, subtitle1),
+    (0, Subtitle, title1),
     (1, RegularBullet, lorem2),
     (0, RegularBullet, loremIpsum)
   )
