@@ -64,5 +64,5 @@ object Presentation {
     (1, Title, title4),
     (0, Subtitle, subtitle4),
     (0, Regular, lorem9)
-	)
+  )
 }
