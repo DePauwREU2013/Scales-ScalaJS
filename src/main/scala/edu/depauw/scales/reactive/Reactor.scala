@@ -16,6 +16,7 @@ sealed trait Reactive {}
 
 case class CTick(val fps: Double, val dur: Double) extends Reactive
 case class KPress(val key: Key.KeyType) extends Reactive
+case class KPressAny() extends Reactive
 case class MClick() extends Reactive
 case class MPos() extends Reactive
 
@@ -43,6 +44,7 @@ case class MPosChanges() extends Reactive
 object Reactive {
 	def ClockTick(framesPerSecond: Double, duration: Double) = CTick(framesPerSecond, duration)
 	def KeyPress(key: Key.KeyType) = KPress(key)
+	def KeyPress() = KPressAny()
 	def MouseClick() = MClick()
 	def MousePosition() = MPos()
 
@@ -79,6 +81,9 @@ case class Reactor[T](reaction: Reactive, fn: T => Scales) {
 
 		case x: KPress =>
 			KeyPress(x.key).subscribe
+
+		case x: KPressAny =>
+			Keyboard.subscribe //returns the number
 
 		case x: MClick => 
 			MouseClick.subscribe
