@@ -13,12 +13,12 @@ object Presentation {
   val title3 = "Title of Slide #3"
   val title4 = "Title of Slide #4"
   
-  val subtitle1 = "By Anonymous x 3"
+  val subtitle1 = "Subtitle #1: By Anonymous x 3"
   val subtitle2 = "Subtitle #2"
   val subtitle3 = "Subtitle #3"
   val subtitle4 = "Subtitle #4"
 
-	val lorem1 = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. " + 
+  val lorem1 = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. " + 
     "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. "+
     "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. " +
     "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
