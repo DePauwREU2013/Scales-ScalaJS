@@ -14,6 +14,7 @@ import Reactive._
 trait Scales {
 	def act(time: Double = 0): Unit
 	def duration: Double	
+	def transformAct(scale: Double): Scales
 }
 
 trait Performance {
@@ -23,7 +24,9 @@ trait Performance {
 
 	def seq(that: Performance): SequentialAct = SequentialAct(this, that)
 
-	def length: Double
+	def transform(scale: Double): Performance
+
+	def length: Double //in seconds
 }
 
 /*
@@ -39,6 +42,10 @@ case class Act(scales: Scales, val width: Double = Canvas.canvas.width, val heig
 
 	def act(t: Double = 0): Unit = {
 		dom.setTimeout(() => scales.act(0), t * 1000)
+	}
+
+	def transform(scale: Double): Performance = {
+		Act(scales.transformAct(scale), width, height)
 	}
 
 }
@@ -62,7 +69,9 @@ case class ParallelAct(one: Performance, two: Performance) extends Performance {
 		}, t * 1000)
 	}
 
-	
+	def transform(scale: Double): Performance = {
+		ParallelAct(one.transform(scale), two.transform(scale))
+	}
 }
 
 case class SequentialAct(first: Performance, second: Performance) extends Performance {
@@ -78,5 +87,9 @@ case class SequentialAct(first: Performance, second: Performance) extends Perfor
 			second.act(0)
 		}, waitDuration * 1000)
 
+	}
+
+	def transform(scale: Double): Performance = {
+		SequentialAct(first.transform(scale), second.transform(scale))
 	}
 }
