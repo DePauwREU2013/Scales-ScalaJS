@@ -3,8 +3,18 @@ package edu.depauw.scales.graphics
 import Base._
 import org.scalajs.dom
 import edu.depauw.scales.music._
+import edu.depauw.scales.reactive._
 
 trait Graphic extends Scales {
+
+  //added
+  def act(time: Double = 0): Unit = {
+    Reactor(Reactive.ClockTickChanges(1,1), (x: Double) => { this } )
+  } 
+
+  //added
+  def duration: Double = 0
+
   def bounds: Bounds
 
   def render(ctx: GraphicsContext): Unit
