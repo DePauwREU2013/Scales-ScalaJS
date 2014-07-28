@@ -35,6 +35,16 @@ case object Regular extends FontType {
 
 case class Custom(override val font: String, val fontSize: Int, val color: Base.Color) extends FontType {}
 
+case object ImageCentered extends FontType {
+  val fontSize = 0
+  val color = Base.Color.Clear
+}
+
+case object ImageLeft extends FontType {
+  val fontSize = 0
+  val color = Base.Color.Clear
+}
+
 
 object PowerPoint {
 
@@ -89,11 +99,30 @@ object PowerPoint {
       handleTexts(graphics)
   }
 
+  def createSlides[T](info: T, font: FontType = RegularBullet): Graphic = font match {
+    case ImageCentered =>
+      info match {
+        case x: Graphic => 
+          val newBounds = RectBounds(x.bounds.left, x.bounds.right, x.bounds.top - 10, x.bounds.bottom)
+          Bounded(x, newBounds).tl.translate((Canvas.canvas.width - x.bounds.width) / 2, 20)
+        case _ => Text("")
+      }
+    case ImageLeft =>
+      info match {
+        case x: Graphic => 
+          val newBounds = RectBounds(x.bounds.left, x.bounds.right, x.bounds.top - 10, x.bounds.bottom)
+          Bounded(x, newBounds).tl
+      }
+    case _ =>
+      info match {
+        case x: String => stringToGraphic(info.asInstanceOf[String], font)
+        case _ => Text("")
+      }
+  }
+
   val currentSlideText: Var[Graphic] = Var(Text(""))
   val history: Var[List[Graphic]] = Var(Nil) 
   val index: Var[Int] = Var(-1)
-
-
 
   import Base._
   def getDisplay(key: Int): Graphic = {
@@ -103,7 +132,7 @@ object PowerPoint {
         history() = history() :+ currentSlideText()
 
         val (indicator, font, txt) = text(index())
-        val g = stringToGraphic(txt, font)
+        val g = createSlides(txt, font)
         if(indicator == 1) currentSlideText() = g
         else currentSlideText() = (currentSlideText() above g)
       }

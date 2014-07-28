@@ -4,7 +4,11 @@ import scala.scalajs.js
 import org.scalajs.dom
 import rx._
 
+import edu.depauw.scales.graphics._
+
 object Presentation {
+
+  import Base._
 
   val title1 = "Title of Slide #1"
   val title2 = "Title of Slide #2"
@@ -44,7 +48,15 @@ object Presentation {
     "Morbi sagittis molestie urna et vehicula. Nam ornare mauris quis risus faucibus, ut pharetra tortor hendrerit. " + 
     "Praesent eu sollicitudin ante. Vestibulum nec varius sem. Cras mi nibh, interdum non lobortis eu, blandit euismod tellus. " 
 
-  val text = List(
+  val graphic1 = Rectangle(100, 100).fill(Color.SeaGreen)
+
+  val graphic2 = Rectangle(100, 100).fill(Color.SeaGreen) beside Ellipse(100, 100).fill(Color.HotPink)
+
+  val lorem10 = "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. " + 
+    "Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un peintre anonyme assembla ensemble des " + 
+    "morceaux de texte pour réaliser un livre spécimen de polices de texte."
+
+  val text: List[(Int, FontType, Any)] = List(
     (1, Title, title1),
     (0, Subtitle, subtitle1),
     (0, RegularBullet, lorem1),
@@ -61,6 +73,9 @@ object Presentation {
     (0, RegularBullet, lorem8),
     (1, Title, title4),
     (0, Subtitle, subtitle4),
-    (0, Regular, lorem9)
+    (0, Regular, lorem9),
+    (0, ImageCentered, graphic1),
+    (0, ImageLeft, graphic2),
+    (0, Custom("monospace", 12, Color.RoyalBlue), lorem10)
   )
 }
