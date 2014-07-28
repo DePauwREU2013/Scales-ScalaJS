@@ -34,8 +34,7 @@ trait Performance {
 ** Act extends Performance
 ** Performance handles Scales
 */
-//note: took out duration because graphics, notes, and reactors should know their duration
-//todo: get actual width and height
+//todo: get actual width and height and fix so that ON would physically display ON?
 case class Act(scales: Scales, val width: Double = Canvas.canvas.width, val height: Double = Canvas.canvas.height) extends Performance {
 
 	def length = scales.duration
