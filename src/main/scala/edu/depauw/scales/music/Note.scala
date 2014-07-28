@@ -25,6 +25,8 @@ trait ScalesNote extends Scales {
 	def par(that: ScalesNote): ParallelComposite = ParallelComposite(this, that)
 
 	def act(time: Double = 0): Unit
+
+	def transformAct(scale: Double): ScalesNote
 }
 
 /*
@@ -50,6 +52,10 @@ case class Note(freq: Double, dur: Double = 1, vol: Double = 1) extends ScalesNo
 
 		o.start(ctx.currentTime.toString().toDouble + time)
 		o.stop(ctx.currentTime.toString().toDouble + time + dur)
+	}
+
+	def transformAct(scale: Double): ScalesNote = {
+		Note(freq, dur * scale, vol)
 	}
 
 	/*
@@ -96,6 +102,10 @@ case class SoundComposite(first: ScalesNote, second: ScalesNote) extends ScalesN
 		second.act(time + first.duration)
 	}
 
+	def transformAct(scale: Double): ScalesNote = {
+		SoundComposite(first.transformAct(scale), second.transformAct(scale))
+	}
+
 }
 
 case class ParallelComposite(first: ScalesNote, second: ScalesNote) extends ScalesNote {
@@ -107,6 +117,10 @@ case class ParallelComposite(first: ScalesNote, second: ScalesNote) extends Scal
 	def act(time: Double = 0): Unit = {
 		first.act(time)
 		second.act(time)
+	}
+
+	def transformAct(scale: Double): ScalesNote = {
+		ParallelComposite(first.transformAct(scale), second.transformAct(scale))
 	}
 }
 
