@@ -13,44 +13,6 @@ object PrettyPicture {
 	import Base._
 	import Reactive._
 
-	val w = Canvas.canvas.width
-	val h = Canvas.canvas.height
-	val radius = math.min(w, h) / 4
-	val rSquared = radius * radius
-
-	val wHalf = w / 2
-	val hHalf = h / 2
-
-	val incr = (radius) / 3
-
-	def fnCircle(x: Double): Graphic = {
-		val g = Ellipse(50, 50).fill(Color.HotPink)
-		
-		val quadOneX = x + wHalf
-		if(quadOneX <= radius + wHalf) {
-			val y = math.sqrt(rSquared - (x * x))
-			return g.translate(quadOneX, hHalf - y)
-		}
-
-		val xPrime = x - radius
-		val newXCoord = (radius + wHalf) - xPrime
-		if(newXCoord >= wHalf) {
-			val y = math.sqrt(rSquared - (xPrime * xPrime))
-
-			dom.alert("radius - y is: " + (radius - y))
-			return g.translate(newXCoord, hHalf + (radius - y))
-		}
-
-		//dom.alert("xprime: " + xPrime)
-		//val quadTwoX = wHalf + x
-		//dom.alert("quadTwoX: " + quadTwoX)
-		// if(quadTwoX >= radius) {
-		// 	val y = math.sqrt(rSquared - (x * x))
-		// 	return g.translate(quadTwoX, hHalf - y)
-		// }
-		Text("")
-	}
-
 	def fnBackground(x: Double): Graphic = {
 		val one = Rectangle(wHalf, hHalf).stroke(Color.Clear).strokeWidth(0).fill(Color.SkyBlue).tl
 		val two = Rectangle(wHalf, hHalf).stroke(Color.Clear).strokeWidth(0).fill(Color.LightBlue).tl
