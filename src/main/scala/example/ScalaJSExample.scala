@@ -21,13 +21,19 @@ object ScalaJSExample extends js.JSApp {
     paragraph.innerHTML = "<strong>It works! Window height = " + window.innerHeight + ". Using Dynamic, that's " + js.Dynamic.global.window.innerHeight + ".</strong>"
     playground.appendChild(paragraph)
 
-    ///---------------///
+    /*-----------------------------------------*/
     import Base._
     import Reactive._
-    import PowerPoint._
     
-    Reactor(KeyPress, getDisplay)
+    //import PowerPoint._
+    //Reactor(KeyPress, getDisplay)
 
+    import KitchenSink._
+    // Reactor(ClockTickChanges(1, 12), fnCircle)
+    paragraph.innerHTML += "wHalf: " + wHalf + " | incr: " + incr
+    Reactor(ClockTickChanges(1, 1), fnBackground)
+    Reactor(ClockTickChanges(1, 20), fnCar)
+    Reactor(MousePosition, fnButterfly)
   }
 
 }
