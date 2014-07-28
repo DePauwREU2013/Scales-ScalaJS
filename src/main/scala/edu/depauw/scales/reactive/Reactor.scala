@@ -85,11 +85,11 @@ case class Reactor[T](reaction: Reactive, fn: T => Scales) extends Scales {
 	//currently scales everything
 	def transformAct(scale: Double): Reactor[T] = reaction match {
 		case x: CTick => 
-			Reactor(CTick(x.fps * scale, x.dur * scale), fn)
+			Reactor(CTick(x.fps, x.dur * scale), fn)
 		case x: CTickGetMPos =>
-			Reactor(CTickGetMPos(x.fps * scale, x.dur * scale), fn)
+			Reactor(CTickGetMPos(x.fps, x.dur * scale), fn)
 		case x: CTickChanges => 
-			Reactor(CTickChanges(x.fps * scale, x.dur * scale), fn)
+			Reactor(CTickChanges(x.fps, x.dur * scale), fn)
 		case _ => this 
 	}
 
