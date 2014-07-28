@@ -7,7 +7,7 @@ import edu.depauw.scales.reactive._
 
 trait Graphic extends Scales {
 
-  //added
+  //added 
   def act(time: Double = 0): Unit = {
     Reactor(Reactive.ClockTickChanges(1,1), (x: Double) => { this } )
   } 

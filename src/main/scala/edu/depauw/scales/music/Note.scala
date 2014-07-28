@@ -5,8 +5,6 @@ import js.annotation.JSExport
 import org.scalajs.dom
 import rx._
 
-trait Scales {}
-
 object Audio {
 	val audioContext = js.Dynamic.newInstance(js.Dynamic.global.AudioContext)()
 }
@@ -14,7 +12,7 @@ object Audio {
 trait ScalesNote extends Scales {
 	val ctx = Audio.audioContext
 
-	def play(t: Double): Unit
+	//def play(t: Double): Unit
 
 	def duration: Double
 
@@ -25,6 +23,8 @@ trait ScalesNote extends Scales {
 	def after(that: ScalesNote): SoundComposite = SoundComposite(that, this)
 
 	def par(that: ScalesNote): ParallelComposite = ParallelComposite(this, that)
+
+	def act(time: Double = 0): Unit
 }
 
 /*
@@ -36,7 +36,9 @@ case class Note(freq: Double, dur: Double = 1, vol: Double = 1) extends ScalesNo
 
 	def duration = dur
 
-	def play(time: Double = 0): Unit = {
+	//def act(time: Double = 0) = play(time)
+
+	def act(time: Double = 0): Unit = {
 		val o = ctx.createOscillator()
 		val g = ctx.createGain()
 
@@ -89,9 +91,9 @@ case class SoundComposite(first: ScalesNote, second: ScalesNote) extends ScalesN
 
 	def duration = first.duration + second.duration
 
-	def play(time: Double = 0): Unit = {
-		first.play(time)
-		second.play(time + first.duration)
+	def act(time: Double = 0): Unit = {
+		first.act(time)
+		second.act(time + first.duration)
 	}
 
 }
@@ -102,9 +104,9 @@ case class ParallelComposite(first: ScalesNote, second: ScalesNote) extends Scal
 
 	def duration = math.max(first.duration, second.duration)
 
-	def play(time: Double = 0): Unit = {
-		first.play(time)
-		second.play(time)
+	def act(time: Double = 0): Unit = {
+		first.act(time)
+		second.act(time)
 	}
 }
 

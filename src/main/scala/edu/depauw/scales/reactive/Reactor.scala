@@ -14,7 +14,7 @@ import Base._
 */
 sealed trait Reactive {}
 
-case class CTick(val fps: Double, val dur: Double) extends Reactive
+case class CTick(val fps: Double, val dur: Double) extends Reactive 
 case class KPress(val key: Key.KeyType) extends Reactive
 case class KPressAny() extends Reactive
 case class MClick() extends Reactive
@@ -73,6 +73,14 @@ object Reactive {
 */
 case class Reactor[T](reaction: Reactive, fn: T => Scales) extends Scales {
 	
+	//added
+	def duration: Double = reaction match {
+		case x: CTick => x.dur
+		case x: CTickGetMPos => x.dur
+		case x: CTickChanges => x.dur
+		case _ => 0
+	}
+
 	val function = fn.asInstanceOf[(Any => Scales)]
 
 	val target: Rx[Any] = reaction match {
@@ -195,9 +203,13 @@ case class Reactor[T](reaction: Reactive, fn: T => Scales) extends Scales {
 				if(index() == -1) {
 					index() = 0
 				} else {
-					x.play(0)
+					x.act(0)
 				}
 			case _ =>
 		}
+	}
+
+	def act(time: Double = 0): Unit = { 
+		//nothing, since it automatically observes itself
 	}
 }
