@@ -4,8 +4,6 @@ import scala.scalajs.js
 import org.scalajs.dom
 import rx._
 
-import edu.depauw.scales.graphics._
-
 object Presentation {
 
   val title1 = "Title of Slide #1"
