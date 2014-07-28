@@ -36,5 +36,7 @@ object ActDemo {
 	val actor4Dash3 = Act(poly) on Act(note)
 	val actor4 = (actor4Dash1 seq (actor4Dash2 on actor4Dash3))
 
+	val actor5 = actor4.transform(2)
 
+	val actor6 = Act(trulyComplexGraphic) seq Act(lessObnoxiousNote)
 }

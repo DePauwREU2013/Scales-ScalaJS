@@ -27,11 +27,11 @@ object ScalaJSExample extends js.JSApp {
     
     /*------------------ACT DEMO------------------*/
     import ActDemo._
-    actor4.act()
+    actor5.act()
 
     /*------------------POWERPOINT DEMO------------------*/
     // import PowerPoint._
-    // Reactor(KeyPress, getDisplay)
+    // Reactor(KeyPress, getDisplay).act()
 
 
 
