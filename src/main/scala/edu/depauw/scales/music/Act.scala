@@ -33,7 +33,8 @@ trait Performance {
 */
 //note: took out duration because graphics, notes, and reactors should know their duration
 //todo: get actual width and height
-case class Act(scales: Scales, width: Double = Canvas.canvas.width, height: Double = Canvas.canvas.height) extends Performance {
+case class Act(scales: Scales, val width: Double = Canvas.canvas.width, val height: Double = Canvas.canvas.height) extends Performance {
+
 	def length = scales.duration
 
 	def act(t: Double = 0): Unit = {
@@ -49,6 +50,15 @@ case class ParallelAct(one: Performance, two: Performance) extends Performance {
 		dom.setTimeout(() => {
 			one.act(0)
 			two.act(0)
+
+			// (one, two) match {
+			// 	case x:(Graphic, Graphic) =>
+			// 		((one.scales) on (two.scales)).act(0) //todo: fix this somehow so that actors, if graphics or reactors, can be piled on top
+			// 	case _ =>
+			// 		one.act(0)
+			// 		two.act(0)
+			// }
+
 		}, t * 1000)
 	}
 
@@ -69,35 +79,4 @@ case class SequentialAct(first: Performance, second: Performance) extends Perfor
 		}, waitDuration * 1000)
 
 	}
-
 }
-
-
-
-
-// case class SeqActComposite(first: Scales, second: Scales) extends Performance {
-// 	def act(): Unit = {
-// 		first match {
-// 			case x: Note => 
-// 				val noteDuration = x.duration
-// 				x.play(0)
-// 				second match {
-// 					case x: Note =>
-// 						Reactor()
-// 						x.play(noteDuration)
-// 					case x: Graphic =>
-// 						dom.setInterval(() => , noteDuration * 1000)
-// 				}
-// 			case x: Graphic => first.render(Canvas.ctx)
-// 		}
-// 	}
-// }
-
-// case class ParActComposite(first: Scales, second: Scales) extends Performance {
-
-// }
-
-// case class Act(scale: Scales) {
-// 	def before(Scales)
-// 	def par(that: Scales)
-// }

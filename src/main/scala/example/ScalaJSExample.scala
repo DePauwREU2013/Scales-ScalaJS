@@ -27,7 +27,7 @@ object ScalaJSExample extends js.JSApp {
     
     /*------------------ACT DEMO------------------*/
     import ActDemo._
-    actor2.act()
+    actor4.act()
 
     /*------------------POWERPOINT DEMO------------------*/
     // import PowerPoint._
