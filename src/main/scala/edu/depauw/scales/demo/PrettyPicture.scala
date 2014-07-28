@@ -13,20 +13,31 @@ object PrettyPicture {
 	import Base._
 	import Reactive._
 
+//mouse click changes
+	val w = Canvas.canvas.width
+	val h = Canvas.canvas.height / 2
 	def fnBackground(x: Double): Graphic = {
-		val one = Rectangle(wHalf, hHalf).stroke(Color.Clear).strokeWidth(0).fill(Color.SkyBlue).tl
-		val two = Rectangle(wHalf, hHalf).stroke(Color.Clear).strokeWidth(0).fill(Color.LightBlue).tl
-		val three = Rectangle(wHalf, hHalf).stroke(Color.Clear).strokeWidth(0).fill(Color.Green).tl
-		val four = Rectangle(wHalf, hHalf).stroke(Color.Clear).strokeWidth(0).fill(Color.DarkGreen).tl
-		(one beside two) above (three beside four)
+		lazy val day = Rectangle(w, h).stroke(Color.Clear).strokeWidth(0).fill(Color.SkyBlue).tl
+		lazy val night = Rectangle(w, h).stroke(Color.Clear).fill(Color.NavyBlue).tl
+		lazy val grass = Rectangle(w, h).stroke(Color.Clear).fill(Color.Green).tl
+		if(x % 2 == 0) {
+			(day above grass)
+		} else (night above grass)
+		// val one = Rectangle(wHalf, hHalf).stroke(Color.Clear).strokeWidth(0).fill(Color.SkyBlue).tl
+		// val two = Rectangle(wHalf, hHalf).stroke(Color.Clear).strokeWidth(0).fill(Color.LightBlue).tl
+		// val three = Rectangle(wHalf, hHalf).stroke(Color.Clear).strokeWidth(0).fill(Color.Green).tl
+		// val four = Rectangle(wHalf, hHalf).stroke(Color.Clear).strokeWidth(0).fill(Color.DarkGreen).tl
+		// (one beside two) above (three beside four)
 	}
 
+//clock ticks
 	def fnCar(x: Double): Graphic = {
 		val wheel1 = Ellipse(50, 50).fill(Color.Grey)
 		val carBody = Polygon((0, 100), (75, 0), (150, 0), (200, 50), (250, 50), (250, 100)).strokeWidth(4).fill(Color.HotPink)
 		(wheel1.bottom on (wheel1.center on carBody.bl).br).translate(400 + (x * 10), 300)
 	}
 
+//mouse position
 	def fnButterfly(xy: (Int, Int)): Graphic = {
 		val butterfly = Polygon(
 			(0, 0), (25, 15), (30, 30),

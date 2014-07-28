@@ -71,7 +71,7 @@ object Reactive {
 ** Usage example: Reactor(Reactive.ClockTick(2, 10), fn)
 ** @params reaction: a final val from Reactive, such as Reactive.MouseClickGetClockTime
 */
-case class Reactor[T](reaction: Reactive, fn: T => Scales) {
+case class Reactor[T](reaction: Reactive, fn: T => Scales) extends Scales {
 	
 	val function = fn.asInstanceOf[(Any => Scales)]
 

@@ -89,7 +89,7 @@ case class SoundComposite(first: ScalesNote, second: ScalesNote) extends ScalesN
 
 	def duration = first.duration + second.duration
 
-	def play(time: Double = 0) {
+	def play(time: Double = 0): Unit = {
 		first.play(time)
 		second.play(time + first.duration)
 	}
@@ -102,7 +102,7 @@ case class ParallelComposite(first: ScalesNote, second: ScalesNote) extends Scal
 
 	def duration = math.max(first.duration, second.duration)
 
-	def play(time: Double = 0) {
+	def play(time: Double = 0): Unit = {
 		first.play(time)
 		second.play(time)
 	}
