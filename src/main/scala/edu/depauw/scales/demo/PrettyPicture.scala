@@ -23,18 +23,17 @@ object PrettyPicture {
 		if(x % 2 == 0) {
 			(day above grass)
 		} else (night above grass)
-		// val one = Rectangle(wHalf, hHalf).stroke(Color.Clear).strokeWidth(0).fill(Color.SkyBlue).tl
-		// val two = Rectangle(wHalf, hHalf).stroke(Color.Clear).strokeWidth(0).fill(Color.LightBlue).tl
-		// val three = Rectangle(wHalf, hHalf).stroke(Color.Clear).strokeWidth(0).fill(Color.Green).tl
-		// val four = Rectangle(wHalf, hHalf).stroke(Color.Clear).strokeWidth(0).fill(Color.DarkGreen).tl
-		// (one beside two) above (three beside four)
 	}
 
 //clock ticks
 	def fnCar(x: Double): Graphic = {
 		val wheel1 = Ellipse(50, 50).fill(Color.Grey)
 		val carBody = Polygon((0, 100), (75, 0), (150, 0), (200, 50), (250, 50), (250, 100)).strokeWidth(4).fill(Color.HotPink)
-		(wheel1.bottom on (wheel1.center on carBody.bl).br).translate(400 + (x * 10), 300)
+		
+		val graphic = wheel1.bottom on (wheel1.center on carBody.bl).br
+		//dom.alert("graphic width: " + graphic.bounds.width)
+		val xPos = (x * 30) % (Canvas.canvas.width + graphic.bounds.width)
+		graphic.translate(xPos, 350)
 	}
 
 //mouse position
@@ -51,4 +50,37 @@ object PrettyPicture {
 		).fill(Color.Violet)
 		butterfly.translate(xy._1, xy._2)
 	}
+
+//mouse click x
+	def fnMusic(x: Int): ScalesNote = {
+		(Note(x) before Note(x + 50)) before Note(x + 100)
+	}
+
+//just images
+    val tallPuff = Ellipse(50, 80).stroke(Color.Clear).fill(Color.OliveGreen)
+    val longPuff = Ellipse(80, 50).stroke(Color.Clear).fill(Color.OliveGreen)
+    val puff = Ellipse(70, 70).stroke(Color.Clear).fill(Color.OliveGreen)
+    val trunk = Rectangle(40, 200).stroke(Color.Mauve)
+    val tree = ((((longPuff.tr on tallPuff.center) on longPuff.tl).bottom on (puff.left on puff).center).bottom on 
+      trunk.center).translate(100, 200)
+    val trees = (tree beside tree) beside (tree beside tree)
+
+//just sounds
+	val note = Note(200) before Note(300)
+	val rep = note before note before note
+
+//acts
+    val background = Act(Anim(MouseClickChanges, fnBackground))
+    val car = Act(Anim(ClockTickChanges(10, 10), fnCar))
+    val butterfly = Act(Anim(MousePosition, fnButterfly))
+    val sounds = Act(Anim(MouseClickX, fnMusic))
+    val forest = Act(trees)
+    val tune = Act(rep)
+
+//main actor
+    val actor = (background on (forest on (car.transform(2) on butterfly) on sounds)) seq tune
 }
+
+
+
+
