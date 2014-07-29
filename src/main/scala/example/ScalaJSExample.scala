@@ -34,8 +34,8 @@ object ScalaJSExample extends js.JSApp {
     // actor2.act()
 
     /*------------------ACT DISPLAYON DEMO------------------*/
-    val circleSquare = Act(Ellipse(50, 50).fill(Color.HotPink)) beside Act(Rectangle(50, 50).fill(Color.SeaGreen))
-    val others = Act(Note(400, 2)) on Act(Rectangle(50, 50).fill(Color.Violet))
+    val circleSquare = Act(Ellipse(50, 50).fill(Color.HotPink).tl) beside Act(Rectangle(50, 50).fill(Color.SeaGreen).tl)
+    val others = Act(Note(400, 2)) on Act(Rectangle(50, 50).fill(Color.Violet).tl)
     (others beside circleSquare).displayOn()
 
     /*------------------POWERPOINT DEMO------------------*/
