@@ -43,7 +43,7 @@ case class Act(scales: Scales) extends Performance {
 	}
 
 	def transform(scale: Double): Performance = {
-		Act(scales.transformAct(scale), width, height)
+		Act(scales.transformAct(scale))
 	}
 
 }
