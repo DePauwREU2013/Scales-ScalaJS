@@ -94,5 +94,3 @@ object Polygon {
       Shape(PointSegment(x, y) :: segments.toList, bounds)
     }
 }
-
-// TODO paths as in Scales 3.0
