@@ -74,6 +74,9 @@ object Reactive {
 */
 case class Anim[T](reaction: Reactive, fn: T => Scales) extends Scales {
 	
+	//added - bounds for anim
+	//def bounds = RectBounds(l, r, )
+	
 	//added
 	def duration: Double = reaction match {
 		case x: CTick => x.dur
@@ -82,8 +85,6 @@ case class Anim[T](reaction: Reactive, fn: T => Scales) extends Scales {
 		case _ => 0
 	}
 
-	//added	TODO TODO TODO : FIGURE OUT HOW TO TRANSFORM THIS
-	//currently scales everything
 	def transformAct(scale: Double): Anim[T] = reaction match {
 		case x: CTick => 
 			Anim(CTick(x.fps, x.dur * scale), fn)
@@ -94,114 +95,115 @@ case class Anim[T](reaction: Reactive, fn: T => Scales) extends Scales {
 		case _ => this 
 	}
 
+	lazy val function = fn.asInstanceOf[(Any => Scales)]
+
+	lazy val target: Rx[Any] = reaction match {
+		case x: CTick => 
+			Timer(x.fps, x.dur).subscribe
+
+		case x: KPress =>
+			KeyPress(x.key).subscribe
+
+		case x: KPressAny =>
+			Keyboard.subscribe //returns the number
+
+		case x: MClick => 
+			MouseClick.subscribe
+			
+		case x: MPos => 
+			MousePosition.subscribe
+			
+		case x: MClickX => 
+			MouseClick.subscribeX
+			
+		case x: MClickY => 
+			MouseClick.subscribeY
+			
+		case x: MPosX => 
+			MousePosition.subscribeX
+			
+		case x: MPosY => 
+			MousePosition.subscribeY
+			
+		case x: CTickGetMPos => {
+			val clock_sub = Timer(x.fps, x.dur).subscribe
+			val rx = Var(MousePosition.xy())
+			Obs(clock_sub) {
+				rx() = MousePosition.xy()
+			}
+			rx
+		}
+			
+		case x: MClickGetCTime => {
+			val click_sub = MouseClick.subscribe
+			val startTime = new js.Date().getTime()
+			val rx = Var(0.0)
+			Obs(click_sub) {
+				rx() = (new js.Date().getTime() - startTime) / 1000
+			}
+			rx
+		}
+			
+		case x: MPosGetCTime => {
+			val pos_sub = MousePosition.subscribe
+			val startTime = new js.Date().getTime()
+			val rx = Var(0.0)
+			Obs(pos_sub) {
+				rx() = (new js.Date().getTime() - startTime) / 1000
+			}
+			rx
+		}
+
+		case x: KPressGetCTime => {
+			val key_sub = KeyPress(x.key).subscribe
+			val startTime = new js.Date().getTime()
+			val rx = Var(0.0)
+			Obs(key_sub) {
+				rx() = (new js.Date().getTime() - startTime) / 1000
+			}
+			rx
+		}
+
+		case x: KPressAnyGetCTime => {
+			val key_sub = Keyboard.subscribe //rx[Int]
+			val startTime = new js.Date().getTime()
+			val rx = Var(0.0)
+			Obs(key_sub) {
+				rx() = (new js.Date().getTime() - startTime) / 1000
+			}
+			rx
+		}
+
+		case x: CTickChanges => 
+			Timer(x.fps, x.dur).subscribeChanges
+
+		case x: KPressChanges =>
+			KeyPress(x.key).subscribeChanges
+
+		case x: KPressAnyChanges => 
+			Keyboard.subscribeChanges
+
+		case x: MClickChanges =>
+			MouseClick.subscribeChanges
+
+		case x: MPosChanges =>
+			MousePosition.subscribeChanges
+
+		case _ => Var(0)
+	}
+
+	lazy val index = Var(-1)
+
+	def initGraphic(g: Graphic): Unit = {
+		CanvasHandler.addGraphic(g)
+	}
+
+	def unsubscribe(): Unit = {
+		target.killAll()
+	}
+
 	def act(time: Double = 0): Unit = { 
-		val function = fn.asInstanceOf[(Any => Scales)]
-
-		val target: Rx[Any] = reaction match {
-			case x: CTick => 
-				Timer(x.fps, x.dur).subscribe
-
-			case x: KPress =>
-				KeyPress(x.key).subscribe
-
-			case x: KPressAny =>
-				Keyboard.subscribe //returns the number
-
-			case x: MClick => 
-				MouseClick.subscribe
-			
-			case x: MPos => 
-				MousePosition.subscribe
-			
-			case x: MClickX => 
-				MouseClick.subscribeX
-			
-			case x: MClickY => 
-				MouseClick.subscribeY
-			
-			case x: MPosX => 
-				MousePosition.subscribeX
-			
-			case x: MPosY => 
-				MousePosition.subscribeY
-			
-			case x: CTickGetMPos => {
-				val clock_sub = Timer(x.fps, x.dur).subscribe
-				val rx = Var(MousePosition.xy())
-				Obs(clock_sub) {
-					rx() = MousePosition.xy()
-				}
-				rx
-			}
-			
-			case x: MClickGetCTime => {
-				val click_sub = MouseClick.subscribe
-				val startTime = new js.Date().getTime()
-				val rx = Var(0.0)
-				Obs(click_sub) {
-					rx() = (new js.Date().getTime() - startTime) / 1000
-				}
-				rx
-			}
-			
-			case x: MPosGetCTime => {
-				val pos_sub = MousePosition.subscribe
-				val startTime = new js.Date().getTime()
-				val rx = Var(0.0)
-				Obs(pos_sub) {
-					rx() = (new js.Date().getTime() - startTime) / 1000
-				}
-				rx
-			}
-
-			case x: KPressGetCTime => {
-				val key_sub = KeyPress(x.key).subscribe
-				val startTime = new js.Date().getTime()
-				val rx = Var(0.0)
-				Obs(key_sub) {
-					rx() = (new js.Date().getTime() - startTime) / 1000
-				}
-				rx
-			}
-
-			case x: KPressAnyGetCTime => {
-				val key_sub = Keyboard.subscribe //rx[Int]
-				val startTime = new js.Date().getTime()
-				val rx = Var(0.0)
-				Obs(key_sub) {
-					rx() = (new js.Date().getTime() - startTime) / 1000
-				}
-				rx
-			}
-
-			case x: CTickChanges => 
-				Timer(x.fps, x.dur).subscribeChanges
-
-			case x: KPressChanges =>
-				KeyPress(x.key).subscribeChanges
-
-			case x: KPressAnyChanges => 
-				Keyboard.subscribeChanges
-
-			case x: MClickChanges =>
-				MouseClick.subscribeChanges
-
-			case x: MPosChanges =>
-				MousePosition.subscribeChanges
-
-			case _ => Var(0)
-		}
-
-		val index = Var(-1)
-
-		def initGraphic(g: Graphic): Unit = {
-			CanvasHandler.addGraphic(g)
-		}
-
-		def unsubscribe(): Unit = {
-			target.killAll()
-		}
-
+		
 		Obs(target) {
 			val result = function(target())
 
