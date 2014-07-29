@@ -35,7 +35,8 @@ object ScalaJSExample extends js.JSApp {
 
     /*------------------ACT DISPLAYON DEMO------------------*/
     val circleSquare = Act(Ellipse(50, 50).fill(Color.HotPink)) beside Act(Rectangle(50, 50).fill(Color.SeaGreen))
-    circleSquare.displayOn()
+    val others = Act(Note(400, 2)) on Act(Rectangle(50, 50).fill(Color.Violet))
+    (others beside circleSquare).displayOn()
 
     /*------------------POWERPOINT DEMO------------------*/
     // import PowerPoint._
