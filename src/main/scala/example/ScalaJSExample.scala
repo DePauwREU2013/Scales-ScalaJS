@@ -8,6 +8,7 @@ import edu.depauw.scales.graphics._
 import edu.depauw.scales.reactive._
 import edu.depauw.scales.music._
 import edu.depauw.scales.demo._
+import edu.depauw.scales.act._
 
 object window extends js.Object {
   val innerHeight: Int = ???

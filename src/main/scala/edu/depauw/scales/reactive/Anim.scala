@@ -7,6 +7,7 @@ import rx._
 
 import edu.depauw.scales.graphics._
 import edu.depauw.scales.music._
+import edu.depauw.scales.act._
 import Base._
 
 /*

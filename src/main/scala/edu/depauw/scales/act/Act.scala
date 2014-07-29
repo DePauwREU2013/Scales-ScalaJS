@@ -1,4 +1,4 @@
-package edu.depauw.scales.music
+package edu.depauw.scales.act
 
 import scala.scalajs.js
 import js.annotation.JSExport
@@ -7,6 +7,7 @@ import rx._
 
 import edu.depauw.scales.graphics._
 import edu.depauw.scales.reactive._
+import edu.depauw.scales.music._
 
 import Reactive._
 

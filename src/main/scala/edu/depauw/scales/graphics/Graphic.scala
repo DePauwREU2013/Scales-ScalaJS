@@ -4,6 +4,7 @@ import Base._
 import org.scalajs.dom
 import edu.depauw.scales.music._
 import edu.depauw.scales.reactive._
+import edu.depauw.scales.act._
 
 trait Graphic extends Scales {
 

@@ -5,6 +5,8 @@ import js.annotation.JSExport
 import org.scalajs.dom
 import rx._
 
+import edu.depauw.scales.act._
+
 object Audio {
 	val audioContext = js.Dynamic.newInstance(js.Dynamic.global.AudioContext)()
 }
