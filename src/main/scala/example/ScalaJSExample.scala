@@ -17,6 +17,9 @@ object window extends js.Object {
 object ScalaJSExample extends js.JSApp {
   def main(): Unit = {
     val playground = dom.document.getElementById("playground")
+    val canvas = dom.document.getElementById("output").asInstanceOf[dom.HTMLCanvasElement]
+    canvas.width = 800
+    canvas.height = 600
 
     val paragraph = dom.document.createElement("p")
     paragraph.innerHTML = "<strong>It works! Window height = " + window.innerHeight + ". Using Dynamic, that's " + js.Dynamic.global.window.innerHeight + ".</strong>"

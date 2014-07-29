@@ -71,10 +71,10 @@ object PrettyPicture {
 	val rep = note before note before note
 
 //acts
-    val background = Act(Anim(MouseClickChanges, fnBackground))
-    val car = Act(Anim(ClockTickChanges(10, 10), fnCar))
-    val butterfly = Act(Anim(MousePosition, fnButterfly))
-    val sounds = Act(Anim(MouseClickX, fnMusic))
+    val background = Act(Anim(w, h)(MouseClickChanges, fnBackground))
+    val car = Act(Anim(w, h)(ClockTickChanges(10, 10), fnCar))
+    val butterfly = Act(Anim(w, h)(MousePosition, fnButterfly))
+    val sounds = Act(Anim(w, h)(MouseClickX, fnMusic))
     val forest = Act(trees)
     val tune = Act(rep)
 
