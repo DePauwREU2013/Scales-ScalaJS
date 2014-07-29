@@ -33,15 +33,18 @@ object ScalaJSExample extends js.JSApp {
     // import ActDemo._
     // actor2.act()
 
+    /*------------------ACT DISPLAYON DEMO------------------*/
+    val circleSquare = Act(Ellipse(50, 50).fill(Color.HotPink)) beside Act(Rectangle(50, 50).fill(Color.SeaGreen))
+    circleSquare.displayOn()
+
     /*------------------POWERPOINT DEMO------------------*/
     // import PowerPoint._
     // Anim(KeyPress, getDisplay).act()
 
 
-
     /*------------------PRETTY PICTURE DEMO------------------*/
-    import PrettyPicture._
-    actor.act()
+    // import PrettyPicture._
+    // actor.act()
 
     /*------------------THE DR.HOWARD DEMO------------------*/
 
