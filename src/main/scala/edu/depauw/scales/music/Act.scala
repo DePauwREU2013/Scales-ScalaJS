@@ -34,8 +34,7 @@ trait Performance {
 ** Act extends Performance
 ** Performance handles Scales
 */
-//todo: get actual width and height and fix so that ON would physically display ON?
-case class Act(scales: Scales, val width: Double = Canvas.canvas.width, val height: Double = Canvas.canvas.height) extends Performance {
+case class Act(scales: Scales) extends Performance {
 
 	def length = scales.duration
 
@@ -56,15 +55,6 @@ case class ParallelAct(one: Performance, two: Performance) extends Performance {
 		dom.setTimeout(() => {
 			one.act(0)
 			two.act(0)
-
-			// (one, two) match {
-			// 	case x:(Graphic, Graphic) =>
-			// 		((one.scales) on (two.scales)).act(0) //todo: fix this somehow so that actors, if graphics or anims, can be piled on top
-			// 	case _ =>
-			// 		one.act(0)
-			// 		two.act(0)
-			// }
-
 		}, t * 1000)
 	}
 
