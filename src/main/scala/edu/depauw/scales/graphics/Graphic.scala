@@ -9,7 +9,7 @@ trait Graphic extends Scales {
 
   //added 
   def act(time: Double = 0): Unit = {
-    Reactor(Reactive.ClockTickChanges(1,1), (x: Double) => { this } ).act(time)
+    Anim(Reactive.ClockTickChanges(1,1), (x: Double) => { this } ).act(time)
   } 
 
   //added

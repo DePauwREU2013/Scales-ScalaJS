@@ -26,22 +26,21 @@ object ScalaJSExample extends js.JSApp {
     import Reactive._
     
     /*------------------ACT DEMO------------------*/
-    import ActDemo._
-    actor5.act()
+    // import ActDemo._
+    // actor2.act()
 
     /*------------------POWERPOINT DEMO------------------*/
     // import PowerPoint._
-    // Reactor(KeyPress, getDisplay).act()
+    // Anim(KeyPress, getDisplay).act()
 
 
 
     /*------------------PRETTY PICTURE DEMO------------------*/
-    // import PrettyPicture._
-    // Reactor(ClockTickChanges(1, 1), fnBackground)
-    // Reactor(ClockTickChanges(1, 20), fnCar)
-    // Reactor(MousePosition, fnButterfly)
+    import PrettyPicture._
+    actor.act()
 
     /*------------------THE DR.HOWARD DEMO------------------*/
-  }
+
+  } 
 
 }

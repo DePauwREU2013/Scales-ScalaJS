@@ -10,7 +10,7 @@ import edu.depauw.scales.reactive._
 
 import Reactive._
 
-// Graphic, Note, and Reactor all extends Scales
+// Graphic, Note, and Anim all extends Scales
 trait Scales {
 	def act(time: Double = 0): Unit
 	def duration: Double	
@@ -30,7 +30,7 @@ trait Performance {
 }
 
 /*
-** Note, Graphic, and Reactor extend Scales
+** Note, Graphic, and Anim extend Scales
 ** Act extends Performance
 ** Performance handles Scales
 */
@@ -59,7 +59,7 @@ case class ParallelAct(one: Performance, two: Performance) extends Performance {
 
 			// (one, two) match {
 			// 	case x:(Graphic, Graphic) =>
-			// 		((one.scales) on (two.scales)).act(0) //todo: fix this somehow so that actors, if graphics or reactors, can be piled on top
+			// 		((one.scales) on (two.scales)).act(0) //todo: fix this somehow so that actors, if graphics or anims, can be piled on top
 			// 	case _ =>
 			// 		one.act(0)
 			// 		two.act(0)

@@ -38,8 +38,8 @@ case class MClickChanges() extends Reactive
 case class MPosChanges() extends Reactive
 
 /*
-** Usage example: Reactor(Reactive.ClockTick(Double, Double), ...)  
-** The example above creates a reactor that reacts to clock ticks
+** Usage example: Anim(Reactive.ClockTick(Double, Double), ...)  
+** The example above creates a animation that reacts to clock ticks
 */
 object Reactive {
 	def ClockTick(framesPerSecond: Double, duration: Double) = CTick(framesPerSecond, duration)
@@ -68,10 +68,10 @@ object Reactive {
 }
 
 /*
-** Usage example: Reactor(Reactive.ClockTick(2, 10), fn)
+** Usage example: Anim(Reactive.ClockTick(2, 10), fn)
 ** @params reaction: a final val from Reactive, such as Reactive.MouseClickGetClockTime
 */
-case class Reactor[T](reaction: Reactive, fn: T => Scales) extends Scales {
+case class Anim[T](reaction: Reactive, fn: T => Scales) extends Scales {
 	
 	//added
 	def duration: Double = reaction match {
@@ -83,13 +83,13 @@ case class Reactor[T](reaction: Reactive, fn: T => Scales) extends Scales {
 
 	//added	TODO TODO TODO : FIGURE OUT HOW TO TRANSFORM THIS
 	//currently scales everything
-	def transformAct(scale: Double): Reactor[T] = reaction match {
+	def transformAct(scale: Double): Anim[T] = reaction match {
 		case x: CTick => 
-			Reactor(CTick(x.fps, x.dur * scale), fn)
+			Anim(CTick(x.fps, x.dur * scale), fn)
 		case x: CTickGetMPos =>
-			Reactor(CTickGetMPos(x.fps, x.dur * scale), fn)
+			Anim(CTickGetMPos(x.fps, x.dur * scale), fn)
 		case x: CTickChanges => 
-			Reactor(CTickChanges(x.fps, x.dur * scale), fn)
+			Anim(CTickChanges(x.fps, x.dur * scale), fn)
 		case _ => this 
 	}
 
