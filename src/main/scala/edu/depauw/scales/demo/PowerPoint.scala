@@ -126,7 +126,7 @@ object PowerPoint {
 
   import Base._
   def getDisplay(key: Int): Graphic = {
-    if(key == Key.Right) {
+    if(key == Key.Right || key == Key.PageDown) {
       if(index() < text.length - 1) {
         index() += 1
         history() = history() :+ currentSlideText()
@@ -137,7 +137,7 @@ object PowerPoint {
         else currentSlideText() = (currentSlideText() above g)
       }
     }
-    else if(key == Key.Left) {
+    else if(key == Key.Left || key == Key.PageUp) {
       if(index() > 0) {
         index() -= 1
 

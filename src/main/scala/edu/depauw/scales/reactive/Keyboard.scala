@@ -48,6 +48,9 @@ object Key {
 	final val Right: KeyType = 39
 	final val Down: KeyType = 40
 
+	final val PageUp: KeyType = 33
+	final val PageDown: KeyType = 34 
+
 	final val Zero: KeyType = 48
 	final val One: KeyType = 49
 	final val Two: KeyType = 50
