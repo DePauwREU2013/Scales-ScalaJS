@@ -2,31 +2,31 @@ import rx._
 import Base._
 
 trait Slide {
-  def font: String = "serif"
-  def fontSize: Int = 20
+  def font: String = "tahoma"
+  def fontSize: Int = 35
   def color: Color = Color.Black
   def indicator: Int = 0
 }
 
 case class TitleStart(val contents: String) extends Slide {
-  override def fontSize = 48
+  override def fontSize = 70
   override def color = Color.SeaGreen
   override def indicator = 1
 }
 
 case class Title(val contents: String) extends Slide {
-  override def fontSize = 48
+  override def fontSize = 70
   override def color = Color.SeaGreen
 }
 
 case class SubtitleStart(val contents: String) extends Slide {
-  override def fontSize = 30
+  override def fontSize = 50
   override def color = Color.SeaGreen
   override def indicator = 1
 }
 
 case class Subtitle(val contents: String) extends Slide {
-  override def fontSize = 30
+  override def fontSize = 50
   override def color = Color.HotPink
 }
 
@@ -62,7 +62,8 @@ case class ImgLeftStart(val contents: Graphic) extends Slide {
 case class ImgLeft(val contents: Graphic) extends Slide {}
 
 //presentation
-val title1 = "Title of Slide #1"
+val oneTitle = "Scales.js"
+val title1 = "Title #1"
 val title2 = "Title of Slide #2"
 val title3 = "Title of Slide #3"
 val title4 = "Title of Slide #4"
@@ -107,6 +108,7 @@ val graphic2 = Rectangle(100, 100).fill(Color.Yellow) beside Ellipse(100, 100).f
 val graphic3 = Image("https://tse4.mm.bing.net/th?id=HN.608021731299754631&pid=1.7", 400, 300)
 
 val text: List[Slide] = List(
+    //Custom(oneTitle, "monospace", 60, Color.RoyalBlue)
     TitleStart(title1),
     Subtitle(subtitle1),
     Bullet(lorem1),
@@ -156,7 +158,7 @@ def getDisplay(key: Int): Graphic = {
         history() = history().init
       }
     }
-    currentSlideText()
+    currentSlideText() on Rectangle(canvas.width, canvas.height).fill(Color.White).tl
 }
 
 def createSlides(slide: Slide): Graphic = slide match {
@@ -183,59 +185,74 @@ def stringToGraphic(slide: Slide): Graphic = slide match {
       val words = x.contents.split(" ")
       val graphics = splitAll(words, Array[Graphic](), x.font, x.fontSize, x.color)
       val g = handleTexts(graphics)
-      g.tl.translate((canvas.width - g.bounds.width) / 2, 0)
+      val gg = g.tl.translate((canvas.width - g.bounds.width) / 2, 0)
+      val newBounds = RectBounds(gg.bounds.left, gg.bounds.right, gg.bounds.top - 30, gg.bounds.bottom)
+      Bounded(gg, newBounds)
 
     case x: Title =>
       val words = x.contents.split(" ")
       val graphics = splitAll(words, Array[Graphic](), x.font, x.fontSize, x.color)
       val g = handleTexts(graphics)
-      g.tl.translate((canvas.width - g.bounds.width) / 2, 0)
+      val gg = g.tl.translate((canvas.width - g.bounds.width) / 2, 0)
+      val newBounds = RectBounds(gg.bounds.left, gg.bounds.right, gg.bounds.top - 30, gg.bounds.bottom)
+      Bounded(gg, newBounds)
 
     case x: SubtitleStart =>
       val words = x.contents.split(" ")
       val graphics = splitAll(words, Array[Graphic](), x.font, x.fontSize, x.color)
       val g = handleTexts(graphics)
-      g.tl.translate((canvas.width - g.bounds.width) / 2, 0)
+      val gg = g.tl.translate((canvas.width - g.bounds.width) / 2, 0)
+      val newBounds = RectBounds(gg.bounds.left, gg.bounds.right, gg.bounds.top - 40, gg.bounds.bottom)
+      Bounded(gg, newBounds)
 
     case x: Subtitle =>
       val words = x.contents.split(" ")
       val graphics = splitAll(words, Array[Graphic](), x.font, x.fontSize, x.color)
       val g = handleTexts(graphics)
-      g.tl.translate((canvas.width - g.bounds.width) / 2, 0)
+      val gg = g.tl.translate((canvas.width - g.bounds.width) / 2, 0)
+      val newBounds = RectBounds(gg.bounds.left, gg.bounds.right, gg.bounds.top - 40, gg.bounds.bottom)
+      Bounded(gg, newBounds)
 
     case x: BulletStart =>
-      val bullet = Rectangle(10, 10).pad(1.5).tl
+      val bullet = Rectangle(20, 20).stroke(Color.White).fill(x.color).pad(1.5).tl
       val words = x.contents.split(" ")
       val graphics = splitAll(words, Array[Graphic](), x.font, x.fontSize, x.color)
       val finalGraphic = handleTexts(graphics)
       val g = bullet beside finalGraphic
-      val newBounds = RectBounds(g.bounds.left, g.bounds.right, g.bounds.top - 10, g.bounds.bottom)
+      val newBounds = RectBounds(g.bounds.left - 10, g.bounds.right, g.bounds.top - 40, g.bounds.bottom)
       Bounded(g, newBounds)
 
     case x: Bullet =>
-      val bullet = Rectangle(10, 10).pad(1.5).tl
+      val bullet = Rectangle(20, 20).stroke(Color.White).fill(x.color).pad(1.5).tl
       val words = x.contents.split(" ")
       val graphics = splitAll(words, Array[Graphic](), x.font, x.fontSize, x.color)
       val finalGraphic = handleTexts(graphics)
       val g = bullet beside finalGraphic
-      val newBounds = RectBounds(g.bounds.left, g.bounds.right, g.bounds.top - 10, g.bounds.bottom)
+      val newBounds = RectBounds(g.bounds.left - 10, g.bounds.right, g.bounds.top - 40, g.bounds.bottom)
       Bounded(g, newBounds)
 
     case x: RegularStart =>
       val words = x.contents.split(" ")
       val graphics = splitAll(words, Array[Graphic](), x.font, x.fontSize, x.color)
-      handleTexts(graphics)
+      val g = handleTexts(graphics)
+      val newBounds = RectBounds(g.bounds.left, g.bounds.right, g.bounds.top - 40, g.bounds.bottom)
+      Bounded(g, newBounds)
 
     case x: Regular =>
       val words = x.contents.split(" ")
       val graphics = splitAll(words, Array[Graphic](), x.font, x.fontSize, x.color)
-      handleTexts(graphics)
-
+      val g = handleTexts(graphics)
+      val newBounds = RectBounds(g.bounds.left, g.bounds.right, g.bounds.top - 40, g.bounds.bottom)
+      Bounded(g, newBounds)
+      
     case x: Custom =>
       val words = x.contents.split(" ")
       val graphics = splitAll(words, Array[Graphic](), x.font, x.fontSize, x.color)
-      handleTexts(graphics)
-
+      val g = handleTexts(graphics)
+      val gg = g.translate((canvas.width - g.bounds.width) / 2, 0)
+      val newBounds = RectBounds(gg.bounds.left, gg.bounds.right, gg.bounds.top - 40, gg.bounds.bottom)
+      Bounded(gg, newBounds)
+      
     case _ => Text("")
 }
 
@@ -261,4 +278,4 @@ def takeWords(words: Array[String], graphic: Graphic, f: String, fs: Int, c: Bas
 
 //testing
 //Ellipse(40, 40).fill(Color.Orange).displayOn()
-Anim(canvas.width, canvas.height)(Reactive.KeyPress, getDisplay).act()
+Act(Anim(canvas.width, canvas.height)(Reactive.KeyPress, getDisplay)).displayOn()
