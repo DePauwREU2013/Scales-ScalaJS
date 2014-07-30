@@ -55,17 +55,17 @@ case class Custom(val contents: String, val f: String, val fs: Int, val c: Base.
   override def indicator = i 
 }
 
-case class ImageStart(val contents: Graphic) extends Slide {
+case class ImgStart(val contents: Graphic) extends Slide {
   override val indicator = 1
 }
 
-case class Image(val contents: Graphic) extends Slide {}
+case class Img(val contents: Graphic) extends Slide {}
 
-case class ImageLeftStart(val contents: Graphic) extends Slide {
+case class ImgLeftStart(val contents: Graphic) extends Slide {
   override val indicator = 1
 }
 
-case class ImageLeft(val contents: Graphic) extends Slide {}
+case class ImgLeft(val contents: Graphic) extends Slide {}
 
 
 
