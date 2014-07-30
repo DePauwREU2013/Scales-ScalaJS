@@ -16,6 +16,11 @@ object PowerPoint {
   val index: Var[Int] = Var(-1)
   val canvas = Canvas.canvas
 
+  /*
+  ** Usage: Anim(w, h)(Reactive.KeyPress, getDisplay)
+  ** getDisplay is the only function that should be called by an outsider
+  ** getDisplay figures out what should be shown on the slide based on key presses and manages slide history
+  */
   def getDisplay(key: Int): Graphic = {
     if(key == Key.Right || key == Key.PageDown) {
       if(index() < text.length - 1) {
@@ -38,6 +43,9 @@ object PowerPoint {
     currentSlideText()
   }
 
+  /*
+  ** decides whether the input slide is a text or graphic type
+  */
   private def createSlides(slide: Slide): Graphic = slide match {
     case x: ImageStart => imageHandler(x.contents, "center")
     case x: Image => imageHandler(x.contents, "center")
@@ -46,6 +54,9 @@ object PowerPoint {
     case _ => stringToGraphic(slide)
   }
 
+  /*
+  ** returns the image with boundary modifications
+  */
   private def imageHandler(g: Graphic, s: String): Graphic = s match {
     case "center" =>
       val newBounds = RectBounds(g.bounds.left, g.bounds.right, g.bounds.top - 10, g.bounds.bottom)
@@ -57,6 +68,9 @@ object PowerPoint {
       Text("")
   }
 
+  /*
+  ** takes input text and returns a graphic with text that fits the canvas
+  */
   private def stringToGraphic(slide: Slide): Graphic = slide match {
     case x: TitleStart =>
       val words = x.contents.split(" ")
@@ -118,11 +132,17 @@ object PowerPoint {
     case _ => Text("")
   }
 
+  /*
+  ** stacks the graphical texts on top of each other so that they fit inside the canvas
+  */
   private def handleTexts(gs: Array[Graphic]): Graphic = gs.length match {
     case 1 => gs(0).tl
     case _ => gs(0).tl above handleTexts(gs.tail)
   }
 
+  /*
+  ** splits the words to fit inside canvas
+  */
   private def splitAll(words: Array[String], graphics: Array[Graphic], f: String, fs: Int, c: Base.Color): Array[Graphic] = words.length match {
     case 0 => graphics
     case _ =>
@@ -130,6 +150,9 @@ object PowerPoint {
       splitAll(rest, graphics :+ g, f, fs, c)
   }
 
+  /*
+  ** helper for splitAll
+  */
   private def takeWords(words: Array[String], graphic: Graphic, f: String, fs: Int, c: Base.Color): (Graphic, Array[String]) = words.length match {
     case 0 => (graphic, words)
     case _ =>
