@@ -35,10 +35,12 @@ object PowerPoint {
       }
     }
     else if(key == Key.Left || key == Key.PageUp) {
-      index() -= 1
+      if(index() > -1) {
+        index() -= 1
 
-      currentSlideText() = history().last
-      history() = history().init
+        currentSlideText() = history().last
+        history() = history().init
+      }
     }
     currentSlideText()
   }
