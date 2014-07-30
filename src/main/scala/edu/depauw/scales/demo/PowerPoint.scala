@@ -49,10 +49,10 @@ object PowerPoint {
   ** decides whether the input slide is a text or graphic type
   */
   private def createSlides(slide: Slide): Graphic = slide match {
-    case x: ImageStart => imageHandler(x.contents, "center")
-    case x: Image => imageHandler(x.contents, "center")
-    case x: ImageLeftStart => imageHandler(x.contents, "left")
-    case x: ImageLeft => imageHandler(x.contents, "left")
+    case x: ImgStart => imageHandler(x.contents, "center")
+    case x: Img => imageHandler(x.contents, "center")
+    case x: ImgLeftStart => imageHandler(x.contents, "left")
+    case x: ImgLeft => imageHandler(x.contents, "left")
     case _ => stringToGraphic(slide)
   }
 

@@ -56,6 +56,8 @@ object Presentation {
     "Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un peintre anonyme assembla ensemble des " + 
     "morceaux de texte pour réaliser un livre spécimen de polices de texte."
 
+  val graphic3 = Image("https://tse4.mm.bing.net/th?id=HN.608021731299754631&pid=1.7", 400, 300)
+
   val text: List[Slide] = List(
     TitleStart(title1),
     Subtitle(subtitle1),
@@ -74,8 +76,9 @@ object Presentation {
     TitleStart(title4),
     Subtitle(subtitle4),
     Regular(lorem9),
-    Image(graphic1),
-    ImageLeft(graphic2),
-    Custom(lorem10, "monospace", 12, Color.RoyalBlue)
+    Img(graphic1),
+    ImgLeft(graphic2),
+    Custom(lorem10, "monospace", 12, Color.RoyalBlue),
+    ImgStart(graphic3)
   )
 }
