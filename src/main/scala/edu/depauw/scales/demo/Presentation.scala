@@ -48,9 +48,9 @@ object Presentation {
     "Morbi sagittis molestie urna et vehicula. Nam ornare mauris quis risus faucibus, ut pharetra tortor hendrerit. " + 
     "Praesent eu sollicitudin ante. Vestibulum nec varius sem. Cras mi nibh, interdum non lobortis eu, blandit euismod tellus. " 
 
-  val graphic1 = Rectangle(100, 100).fill(Color.SeaGreen)
+  val graphic1 = Rectangle(100, 100).fill(Color.RoyalBlue)
 
-  val graphic2 = Rectangle(100, 100).fill(Color.SeaGreen) beside Ellipse(100, 100).fill(Color.HotPink)
+  val graphic2 = Rectangle(100, 100).fill(Color.Yellow) beside Ellipse(100, 100).fill(Color.HotPink)
 
   val lorem10 = "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. " + 
     "Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un peintre anonyme assembla ensemble des " + 
