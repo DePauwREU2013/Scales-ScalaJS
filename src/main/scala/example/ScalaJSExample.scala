@@ -40,7 +40,7 @@ object ScalaJSExample extends js.JSApp {
 
     /*------------------POWERPOINT DEMO------------------*/
     import PowerPoint._
-    Anim(canvas.width, canvas.height)(KeyPress, getDisplay).act()
+    Act(Anim(canvas.width, canvas.height)(KeyPress, getDisplay)).displayOn()
 
     /*------------------PRETTY PICTURE DEMO------------------*/
     // import PrettyPicture._
