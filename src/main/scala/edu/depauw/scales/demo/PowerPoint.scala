@@ -7,145 +7,149 @@ import rx._
 import edu.depauw.scales.graphics._
 import edu.depauw.scales.reactive._
 
-trait FontType {
-  val font: String = "serif"
-  val fontSize: Int
-  val color: Base.Color
-}
-
-case object Title extends FontType { 
-  val fontSize = 48
-  val color = Base.Color.HotPink
-}
-
-case object Subtitle extends FontType {
-  val fontSize = 30
-  val color = Base.Color.SeaGreen
-}
-
-case object RegularBullet extends FontType {
-  val fontSize = 20
-  val color = Base.Color.Black
-}
-
-case object Regular extends FontType {
-  val fontSize = 20
-  val color = Base.Color.Black
-}
-
-case class Custom(override val font: String, val fontSize: Int, val color: Base.Color) extends FontType {}
-
-case object ImageCentered extends FontType {
-  val fontSize = 0
-  val color = Base.Color.Clear
-}
-
-case object ImageLeft extends FontType {
-  val fontSize = 0
-  val color = Base.Color.Clear
-}
-
-
 object PowerPoint {
-
+  import Base._
   import Presentation._
-  
-  def takeWords(words: Array[String], graphic: Graphic, font: FontType): (Graphic, Array[String]) = words.length match {
-    case 0 => (graphic, words)
-    case _ =>
-      val newGraphic = graphic beside Text(" " + words(0), Font(font.font, font.fontSize), false).fill(font.color)
-      if(newGraphic.bounds.width < Canvas.canvas.width - 40) return takeWords(words.tail, newGraphic, font)
-      else return (graphic, words)
-  }
 
-  def splitAll(words: Array[String], graphics: Array[Graphic], font: FontType): Array[Graphic] = words.length match {
-    case 0 => graphics
-    case _ =>
-      val (g, rest) = takeWords(words, Text(""), font)
-      splitAll(rest, graphics :+ g, font)
-  }
-
-  def handleTexts(texts: Array[Graphic]): Graphic = texts.length match {
-    case 1 => texts(0).tl
-    case _ => texts(0).tl above handleTexts(texts.tail)
-  }
-
-  def stringToGraphic(text: String, font: FontType = RegularBullet): Graphic = font match {
-    case Title =>
-      val arr = text.split(" ")
-      val graphics = splitAll(arr, Array[Graphic](), Title)
-      val g = handleTexts(graphics)
-      g.tl.translate((Canvas.canvas.width - g.bounds.width) / 2, 0)
-    case Subtitle =>
-      val arr = text.split(" ")
-      val graphics = splitAll(arr, Array[Graphic](), Subtitle)
-      val g = handleTexts(graphics)
-      g.tl.translate((Canvas.canvas.width - g.bounds.width) / 2, 0)
-    case RegularBullet =>
-      val bullet = Rectangle(10, 10).pad(1.5).tl 
-      val arr = text.split(" ")
-      val graphics = splitAll(arr, Array[Graphic](), RegularBullet)
-      val finalGraphic = handleTexts(graphics)
-      val g = bullet beside finalGraphic
-      val newBounds = RectBounds(g.bounds.left, g.bounds.right, g.bounds.top - 10, g.bounds.bottom)
-      Bounded(g, newBounds)
-    case Regular =>
-      val arr = text.split(" ")
-      val graphics = splitAll(arr, Array[Graphic](), Regular)
-      handleTexts(graphics)
-    case Custom(_, _, _) =>
-      val arr = text.split(" ")
-      val graphics = splitAll(arr, Array[Graphic](), font)
-      handleTexts(graphics)
-  }
-
-  def createSlides[T](info: T, font: FontType = RegularBullet): Graphic = font match {
-    case ImageCentered =>
-      info match {
-        case x: Graphic => 
-          val newBounds = RectBounds(x.bounds.left, x.bounds.right, x.bounds.top - 10, x.bounds.bottom)
-          Bounded(x, newBounds).tl.translate((Canvas.canvas.width - x.bounds.width) / 2, 20)
-        case _ => Text("")
-      }
-    case ImageLeft =>
-      info match {
-        case x: Graphic => 
-          val newBounds = RectBounds(x.bounds.left, x.bounds.right, x.bounds.top - 10, x.bounds.bottom)
-          Bounded(x, newBounds).tl
-      }
-    case _ =>
-      info match {
-        case x: String => stringToGraphic(info.asInstanceOf[String], font)
-        case _ => Text("")
-      }
-  }
+  // type FontType = (String, Int)
 
   val currentSlideText: Var[Graphic] = Var(Text(""))
-  val history: Var[List[Graphic]] = Var(Nil) 
+  val history: Var[List[Graphic]] = Var(Nil)
   val index: Var[Int] = Var(-1)
+  val canvas = Canvas.canvas
 
-  import Base._
   def getDisplay(key: Int): Graphic = {
     if(key == Key.Right || key == Key.PageDown) {
       if(index() < text.length - 1) {
         index() += 1
         history() = history() :+ currentSlideText()
 
-        val (indicator, font, txt) = text(index())
-        val g = createSlides(txt, font)
-        if(indicator == 1) currentSlideText() = g
+        val tmp: Slide = text(index())
+        val g = createSlides(tmp)
+
+        if(tmp.indicator == 1) currentSlideText() = g
         else currentSlideText() = (currentSlideText() above g)
       }
     }
     else if(key == Key.Left || key == Key.PageUp) {
-      if(index() > 0) {
-        index() -= 1
+      index() -= 1
 
-        currentSlideText() = history().last
-        history() = history().init
-      } 
+      currentSlideText() = history().last
+      history() = history().init
     }
     currentSlideText()
+  }
+
+  private def createSlides(slide: Slide): Graphic = slide match {
+    case x: ImageStart => imageHandler(x.contents, "center")
+    case x: Image => imageHandler(x.contents, "center")
+    case x: ImageLeftStart => imageHandler(x.contents, "left")
+    case x: ImageLeft => imageHandler(x.contents, "left")
+    case _ => stringToGraphic(slide)
+
+    // case x: TitleStart => stringToGraphic(x.contents, x.font, x.fontSize, x.color)
+    // case x: Title => stringToGraphic(x.contents, x.font, x.fontSize, x.color)
+    // case x: SubtitleStart => stringToGraphic(x.contents, x.font, x.fontSize, x.color)
+    // case x: Subtitle => stringToGraphic(x.contents, x.font, x.fontSize, x.color)
+    // case x: BulletStart => stringToGraphic(x.contents, x.font, x.fontSize, x.color)
+    // case x: Bullet => stringToGraphic(x.contents, x.font, x.fontSize, x.color)
+    // case x: RegularStart => stringToGraphic(x.contents, x.font, x.fontSize, x.color)
+    // case x: Regular => stringToGraphic(x.contents, x.font, x.fontSize, x.color)
+    // case x: Custom => stringToGraphic(x.contents, x.font, x.fontSize, x.color)
+
+    // case _ => Text("")
+  }
+
+  private def imageHandler(g: Graphic, s: String): Graphic = s match {
+    case "center" =>
+      val newBounds = RectBounds(g.bounds.left, g.bounds.right, g.bounds.top - 10, g.bounds.bottom)
+      Bounded(g, newBounds).tl.translate((Canvas.canvas.width - g.bounds.width) / 2, 20)
+    case "left" =>
+      val newBounds = RectBounds(g.bounds.left, g.bounds.right, g.bounds.top - 10, g.bounds.bottom)
+      Bounded(g, newBounds).tl
+    case _ => 
+      Text("")
+  }
+
+  private def stringToGraphic(slide: Slide): Graphic = slide match {
+    case x: TitleStart =>
+      val words = x.contents.split(" ")
+      val graphics = splitAll(words, Array[Graphic](), x.font, x.fontSize, x.color)
+      val g = handleTexts(graphics)
+      g.tl.translate((canvas.width - g.bounds.width) / 2, 0)
+
+    case x: Title =>
+      val words = x.contents.split(" ")
+      val graphics = splitAll(words, Array[Graphic](), x.font, x.fontSize, x.color)
+      val g = handleTexts(graphics)
+      g.tl.translate((canvas.width - g.bounds.width) / 2, 0)
+
+    case x: SubtitleStart =>
+      val words = x.contents.split(" ")
+      val graphics = splitAll(words, Array[Graphic](), x.font, x.fontSize, x.color)
+      val g = handleTexts(graphics)
+      g.tl.translate((canvas.width - g.bounds.width) / 2, 0)
+
+    case x: Subtitle =>
+      val words = x.contents.split(" ")
+      val graphics = splitAll(words, Array[Graphic](), x.font, x.fontSize, x.color)
+      val g = handleTexts(graphics)
+      g.tl.translate((canvas.width - g.bounds.width) / 2, 0)
+
+    case x: BulletStart =>
+      val bullet = Rectangle(10, 10).pad(1.5).tl
+      val words = x.contents.split(" ")
+      val graphics = splitAll(words, Array[Graphic](), x.font, x.fontSize, x.color)
+      val finalGraphic = handleTexts(graphics)
+      val g = bullet beside finalGraphic
+      val newBounds = RectBounds(g.bounds.left, g.bounds.right, g.bounds.top - 10, g.bounds.bottom)
+      Bounded(g, newBounds)
+
+    case x: Bullet =>
+      val bullet = Rectangle(10, 10).pad(1.5).tl
+      val words = x.contents.split(" ")
+      val graphics = splitAll(words, Array[Graphic](), x.font, x.fontSize, x.color)
+      val finalGraphic = handleTexts(graphics)
+      val g = bullet beside finalGraphic
+      val newBounds = RectBounds(g.bounds.left, g.bounds.right, g.bounds.top - 10, g.bounds.bottom)
+      Bounded(g, newBounds)
+
+    case x: RegularStart =>
+      val words = x.contents.split(" ")
+      val graphics = splitAll(words, Array[Graphic](), x.font, x.fontSize, x.color)
+      handleTexts(graphics)
+
+    case x: Regular =>
+      val words = x.contents.split(" ")
+      val graphics = splitAll(words, Array[Graphic](), x.font, x.fontSize, x.color)
+      handleTexts(graphics)
+
+    case x: Custom =>
+      val words = x.contents.split(" ")
+      val graphics = splitAll(words, Array[Graphic](), x.font, x.fontSize, x.color)
+      handleTexts(graphics)
+
+    case _ => Text("")
+  }
+
+  private def handleTexts(gs: Array[Graphic]): Graphic = gs.length match {
+    case 1 => gs(0).tl
+    case _ => gs(0).tl above handleTexts(gs.tail)
+  }
+
+  private def splitAll(words: Array[String], graphics: Array[Graphic], f: String, fs: Int, c: Base.Color): Array[Graphic] = words.length match {
+    case 0 => graphics
+    case _ =>
+      val (g, rest) = takeWords(words, Text(""), f, fs, c)
+      splitAll(rest, graphics :+ g, f, fs, c)
+  }
+
+  private def takeWords(words: Array[String], graphic: Graphic, f: String, fs: Int, c: Base.Color): (Graphic, Array[String]) = words.length match {
+    case 0 => (graphic, words)
+    case _ =>
+      val newGraphic = graphic beside Text(" " + words(0), Font(f, fs), false).fill(c)
+      if(newGraphic.bounds.width < canvas.width - 40) return takeWords(words.tail, newGraphic, f, fs, c)
+      else return (graphic, words)
   }
 
 }

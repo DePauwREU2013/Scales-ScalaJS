@@ -56,26 +56,26 @@ object Presentation {
     "Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un peintre anonyme assembla ensemble des " + 
     "morceaux de texte pour réaliser un livre spécimen de polices de texte."
 
-  val text: List[(Int, FontType, Any)] = List(
-    (1, Title, title1),
-    (0, Subtitle, subtitle1),
-    (0, RegularBullet, lorem1),
-    (0, RegularBullet, lorem2),
-    (1, Title, title2),
-    (0, Subtitle, subtitle2),
-    (0, RegularBullet, lorem3),
-    (0, RegularBullet, lorem4),
-    (0, RegularBullet, lorem5),
-    (1, Title, title3),
-    (0, Subtitle, subtitle3),
-    (0, RegularBullet, lorem6),
-    (0, RegularBullet, lorem7),
-    (0, RegularBullet, lorem8),
-    (1, Title, title4),
-    (0, Subtitle, subtitle4),
-    (0, Regular, lorem9),
-    (0, ImageCentered, graphic1),
-    (0, ImageLeft, graphic2),
-    (0, Custom("monospace", 12, Color.RoyalBlue), lorem10)
+  val text: List[Slide] = List(
+    TitleStart(title1),
+    Subtitle(subtitle1),
+    Bullet(lorem1),
+    Bullet(lorem2),
+    TitleStart(title2),
+    Subtitle(subtitle2),
+    Bullet(lorem3),
+    Bullet(lorem4),
+    Bullet(lorem5),
+    TitleStart(title3),
+    Subtitle(subtitle3),
+    Bullet(lorem6),
+    Bullet(lorem7),
+    Bullet(lorem8),
+    TitleStart(title4),
+    Subtitle(subtitle4),
+    Regular(lorem9),
+    Image(graphic1),
+    ImageLeft(graphic2),
+    Custom(lorem10, "monospace", 12, Color.RoyalBlue)
   )
 }

@@ -34,14 +34,13 @@ object ScalaJSExample extends js.JSApp {
     // actor2.act()
 
     /*------------------ACT DISPLAYON DEMO------------------*/
-    val circleSquare = Act(Ellipse(50, 50).fill(Color.HotPink).tl) beside Act(Rectangle(50, 50).fill(Color.SeaGreen).tl)
-    val others = Act(Note(400, 2)) on Act(Rectangle(50, 50).fill(Color.Violet).tl)
-    (others beside circleSquare).displayOn()
+    // val circleSquare = Act(Ellipse(50, 50).fill(Color.HotPink).tl) beside Act(Rectangle(50, 50).fill(Color.SeaGreen).tl)
+    // val others = Act(Note(400, 2)) on Act(Rectangle(50, 50).fill(Color.Violet).tl)
+    // (others beside circleSquare).displayOn()
 
     /*------------------POWERPOINT DEMO------------------*/
-    // import PowerPoint._
-    // Anim(KeyPress, getDisplay).act()
-
+    import PowerPoint._
+    Anim(canvas.width, canvas.height)(KeyPress, getDisplay).act()
 
     /*------------------PRETTY PICTURE DEMO------------------*/
     // import PrettyPicture._
@@ -49,6 +48,17 @@ object ScalaJSExample extends js.JSApp {
 
     /*------------------THE DR.HOWARD DEMO------------------*/
 
+    /*------------------SIMPLE MOUSE ACT EXAMPLE------------------*/
+    // val shape = Ellipse(30, 30).fill(Color.Violet)
+    // val shapes = (shape beside shape) above (shape beside shape)
+
+    // def fnShape(xy: (Int, Int)): Graphic = {
+    //     shapes.center.translate(xy._1, xy._2)
+    // }
+
+    // val anim = Anim(canvas.width, canvas.height)(MouseClick, fnShape)
+    // val actor = Act(anim)
+    // actor.act()
   } 
 
 }
