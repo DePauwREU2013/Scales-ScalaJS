@@ -11,8 +11,6 @@ object PowerPoint {
   import Base._
   import Presentation._
 
-  // type FontType = (String, Int)
-
   val currentSlideText: Var[Graphic] = Var(Text(""))
   val history: Var[List[Graphic]] = Var(Nil)
   val index: Var[Int] = Var(-1)
@@ -46,18 +44,6 @@ object PowerPoint {
     case x: ImageLeftStart => imageHandler(x.contents, "left")
     case x: ImageLeft => imageHandler(x.contents, "left")
     case _ => stringToGraphic(slide)
-
-    // case x: TitleStart => stringToGraphic(x.contents, x.font, x.fontSize, x.color)
-    // case x: Title => stringToGraphic(x.contents, x.font, x.fontSize, x.color)
-    // case x: SubtitleStart => stringToGraphic(x.contents, x.font, x.fontSize, x.color)
-    // case x: Subtitle => stringToGraphic(x.contents, x.font, x.fontSize, x.color)
-    // case x: BulletStart => stringToGraphic(x.contents, x.font, x.fontSize, x.color)
-    // case x: Bullet => stringToGraphic(x.contents, x.font, x.fontSize, x.color)
-    // case x: RegularStart => stringToGraphic(x.contents, x.font, x.fontSize, x.color)
-    // case x: Regular => stringToGraphic(x.contents, x.font, x.fontSize, x.color)
-    // case x: Custom => stringToGraphic(x.contents, x.font, x.fontSize, x.color)
-
-    // case _ => Text("")
   }
 
   private def imageHandler(g: Graphic, s: String): Graphic = s match {
