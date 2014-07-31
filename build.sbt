@@ -13,9 +13,11 @@ ScalaJSKeys.persistLauncher in Test := false
 
 scalacOptions ++= Seq( "-deprecation", "-feature" )
 
+resolvers += bintray.Opts.resolver.repo("bhoward", "maven")
+
 libraryDependencies ++= Seq(
     "org.scala-lang.modules.scalajs" %%% "scalajs-dom" % "0.6",
     "com.scalarx" %%% "scalarx" % "0.2.5",
     "org.scala-lang.modules.scalajs" %% "scalajs-jasmine-test-framework" % scalaJSVersion % "test",
-    "edu.depauw" %%% "sjs-scales" % "0.1-SNAPSHOT"
+    "edu.depauw" %%% "sjs-scales" % "0.1"
 )
