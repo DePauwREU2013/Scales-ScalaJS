@@ -1,5 +1,3 @@
-import Base._
-
 val canvas = Canvas.canvas
 val width = canvas.width
 val height = canvas.height

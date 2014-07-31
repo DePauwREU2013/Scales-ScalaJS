@@ -1,4 +1,3 @@
-import Base._
 import Reactive._
 
 //mouse click changes

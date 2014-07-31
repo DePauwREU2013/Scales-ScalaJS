@@ -1,5 +1,4 @@
 import rx._
-import Base._
 
 trait Slide {
   def font: String = "tahoma"
