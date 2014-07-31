@@ -1,7 +1,8 @@
+import Base._
 import rx._
 
 trait Slide {
-  def font: String = "tahoma"
+  def font: String = "times"
   def fontSize: Int = 35
   def color: Color = Color.Black
   def indicator: Int = 0
@@ -9,24 +10,24 @@ trait Slide {
 
 case class TitleStart(val contents: String) extends Slide {
   override def fontSize = 70
-  override def color = Color.SeaGreen
+  override def color = Color.RoyalBlue
   override def indicator = 1
 }
 
 case class Title(val contents: String) extends Slide {
   override def fontSize = 70
-  override def color = Color.SeaGreen
+  override def color = Color.RoyalBlue
 }
 
 case class SubtitleStart(val contents: String) extends Slide {
   override def fontSize = 50
-  override def color = Color.SeaGreen
+  override def color = Color.Blue
   override def indicator = 1
 }
 
 case class Subtitle(val contents: String) extends Slide {
   override def fontSize = 50
-  override def color = Color.HotPink
+  override def color = Color.Blue
 }
 
 case class BulletStart(val contents: String) extends Slide {
@@ -41,7 +42,7 @@ case class RegularStart(val contents: String) extends Slide {
 
 case class Regular(val contents: String) extends Slide {}
 
-case class Custom(val contents: String, val f: String, val fs: Int, val c: Color, val i: Int = 0) extends Slide {
+case class Custom(val contents: String, val f: String, val fs: Int, val c: Color,  val pad: Int = 40, val i: Int = 0) extends Slide {
   override def font = f
   override def fontSize = fs
   override def color = c
@@ -61,73 +62,172 @@ case class ImgLeftStart(val contents: Graphic) extends Slide {
 case class ImgLeft(val contents: Graphic) extends Slide {}
 
 //presentation
-val oneTitle = "Scales.js"
-val title1 = "Title #1"
-val title2 = "Title of Slide #2"
-val title3 = "Title of Slide #3"
-val title4 = "Title of Slide #4"
-  
-val subtitle1 = "Subtitle #1: By Anonymous x 3"
-val subtitle2 = "Subtitle #2"
-val subtitle3 = "Subtitle #3"
-val subtitle4 = "Subtitle #4"
+val one_title = "{ Scales IDE }"
+val one_desc = "A web based development environment for functional reactive media computation"
+val one_author = "Benjamin Kruger and Namchi Do"
+val one_author2 = "Brian Howard"
+val fontOne = 40
 
-val lorem1 = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. " + 
-    "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. "+
-    "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. " +
-    "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+val two_title = "{ Overview }"
+val two_pic = Image("http://i.imgur.com/4YNsDWa.png?2", 600, 400)
+// val two_pic = Image("http://imgur.com/DRFM4Tn", Canvas.canvas.width / 2, Canvas.canvas.height / 2)
 
-val lorem2 = "Curabitur sodales ligula in libero. Sed dignissim lacinia nunc. Curabitur tortor. " +
-    "Pellentesque nibh. Aenean quam. In scelerisque sem at dolor. Maecenas mattis. Sed convallis tristique sem." + 
-    " Proin ut ligula vel nunc egestas porttitor. Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. " +
-    "Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum."   
 
-val lorem3 = "Maecenas placerat velit sit amet libero scelerisque, ut luctus odio consectetur."
+val three_title = "{ Outline }"
+val three_one = "Background"
+val three_two = "Motivation"
+val three_three = "Previous Projects"
+val three_four = "Scales IDE"
+val three_five = "Demos"
+val three_six = "Future Work"
+val three_seven = "Acknowledgements"
 
-val lorem4 = "Praesent tempor ante vitae nisi viverra, vel rutrum sem molestie."
+val four_title= "{ Background }"
+val four_one = "What is functional programming?"
+val four_two = "... and Scala?"
+val four_three = "What's an IDE?"
+val four_four = "...and integrating what?"
+val four_pic = Image("http://i.imgur.com/LVxRjVi.png", 400,  350)
 
-val lorem5 = "Integer id ante malesuada, consectetur dolor et, rutrum est.Maecenas at odio luctus, commodo felis eu, molestie lectus."
+val five_title = "{ Motivation }"
+val five_one = "Teaching functional programming early is good."
+val five_two = "Recursive concepts"
+val five_three = "A new paradigm"
 
-val lorem6 = "Nulla tincidunt justo eget enim lacinia aliquet. " + 
-    "Quisque eu nulla et mauris eleifend ullamcorper. Integer bibendum sapien interdum quam blandit, sed eleifend libero scelerisque. " +
-    "Vestibulum pretium nibh quis diam auctor, eget tincidunt ipsum imperdiet. Cras semper quam et varius cursus."
+val six_title = "{ Difficulties }"
+val six_one = ". . . revealed in DePauw's Foundations and CS2 courses: "
+val six_two = "Unfamiliar syntax"
+val six_pic = Image("http://i.imgur.com/H7Sq7Is.png", Canvas.canvas.width, Canvas.canvas.height / 2)
+val six_three = "Complicated tool setup"
 
-val lorem7 = "Donec at justo consequat, dictum nibh quis, fringilla turpis."
+val seven_title = "{ Previous Projects }"
+val seven_one = "Haskell-based projects. . ."
 
-val lorem8 = "Lorem ipsum"
+val seven_two = "Scala-based projects"
+// val seven_three = "Displaying 'Hello World':"
+// val seven_four = Image("http://imgur.com/8ro6s3m", Canvas.canvas.width / 2, Canvas.canvas.height / 4)
+// val seven_five = Image("http://imgur.com/857hdQR", Canvas.canvas.width, Canvas.canvas.height / 2)
 
-val lorem9 = "Fusce a facilisis augue. Duis egestas odio a vulputate consectetur. " + 
-    "Morbi sagittis molestie urna et vehicula. Nam ornare mauris quis risus faucibus, ut pharetra tortor hendrerit. " + 
-    "Praesent eu sollicitudin ante. Vestibulum nec varius sem. Cras mi nibh, interdum non lobortis eu, blandit euismod tellus. " 
+val eight_title = "{The Scales IDE Project}"
+val eight_one = "(1) Scala typed into editor"
+val eight_two = "(2) Code sent to server"
+val eight_three = "(3) Processed by Scales library"
+val eight_four = "(4) Result sent to canvas"
+val eight_pic = Image("http://i.imgur.com/8lglrmE.png", Canvas.canvas.width / 2, Canvas.canvas.height / 3)
+val nine_title = "{ IDE Demo }"
 
-val graphic1 = Rectangle(100, 100).fill(Color.RoyalBlue)
+// val ten_title = "{ Scales.js }"
+// val ten_one = "Scala.js"
+// val ten_two = "Compiles Scala into JavaScript"
+// val ten_three = "Handles most core language features"
+// val ten_four = "Adds access to the Web DOM"
+// val ten_five = "The Scales library"
+// val ten_six = "Media library"
+// val ten_seven = "Existing Graphics library"
+// val ten_eight = "New Audio library"
+// val ten_nine = "New Animation (Anim) library"
+// val ten_ten = "New Act library"
 
-val graphic2 = Rectangle(100, 100).fill(Color.Yellow) beside Ellipse(100, 100).fill(Color.HotPink)
+// val eleven_title = "{ (Live) Demos }"
+// val eleven_pic = Rectangle(50, 100).fill(Color.SeaGreen) beside Ellipse(60, 60).fill(Color.HotPink)
+// val eleven_pic2 = Polygon((0, 0), (0, 100), (50, 200), (100, 100)).fill(Color.Violet) on eleven_pic
 
-val graphic3 = Image("https://tse4.mm.bing.net/th?id=HN.608021731299754631&pid=1.7", 400, 300)
+// val twelve_title = "{ Future Work }"
+// val twelve_one = "IDE Enhancements"
+// val twelve_two = "Front end work"
+// val twelve_three = "Server features"
+// val twelve_four = "Library Enhancements"
+// val twelve_five = "Reactive"
+// val twelve_six = "Audio"
+
+// val thirteen_title = "{ Acknowledgements }"
+// val thirteen_one = "NSF & REU"
+// val thirteen_two = "DePauw University"
+// val thirteen_three = "Dr. Howard"
 
 val text: List[Slide] = List(
-    //Custom(oneTitle, "monospace", 60, Color.RoyalBlue)
-    TitleStart(title1),
-    Subtitle(subtitle1),
-    Bullet(lorem1),
-    Bullet(lorem2),
-    TitleStart(title2),
-    Subtitle(subtitle2),
-    Bullet(lorem3),
-    Bullet(lorem4),
-    Bullet(lorem5),
-    TitleStart(title3),
-    Subtitle(subtitle3),
-    Bullet(lorem6),
-    Bullet(lorem7),
-    Bullet(lorem8),
-    TitleStart(title4),
-    Subtitle(subtitle4),
-    Custom(lorem9, "monospace", 12, Color.RoyalBlue),
-    Img(graphic1),
-    ImgLeft(graphic2),
-    ImgStart(graphic3)
+    Custom(one_title, "monospace", 80, Color.Black, 150),
+    Custom(one_desc, "times", fontOne, Color.Black, 50), 
+    Custom(one_author, "times", fontOne, Color.Black),
+    Custom(one_author2, "times", fontOne, Color.Black, 0),
+    
+    TitleStart(two_title),
+    Img(two_pic),
+    
+    TitleStart(three_title),
+    Bullet(three_one),
+    Bullet(three_two),
+    Bullet(three_three),
+    Bullet(three_four),
+    Bullet(three_five),
+    Bullet(three_six),
+    Bullet(three_seven),
+    
+    TitleStart(four_title),
+    Bullet(four_three),
+    Custom(four_four, "times", 35, Color.Black, 0),
+    Bullet(four_one),
+    Custom(four_two, "times", 35, Color.Black, 0),
+    Img(four_pic),
+    
+    TitleStart(five_title),
+    Regular(five_one),
+    Bullet(five_two),
+    Bullet(five_three),
+    
+    TitleStart(seven_title),
+    Bullet(seven_one),
+    Bullet(seven_two),
+    
+    TitleStart(six_title),
+    Regular(six_one),
+    Bullet(six_two),
+    Img(six_pic),
+    Bullet(six_three),
+    
+    //TitleStart(seven_title),
+    // Custom(seven_three, "times", 35, Color.Black, 40),
+    // Img(seven_four),
+    // Img(seven_five),
+
+    
+    TitleStart(eight_title),
+    Img(eight_pic),
+    Regular(eight_one),
+    Regular(eight_two),
+    Regular(eight_three),
+    Regular(eight_four),
+    
+    TitleStart(nine_title),
+    
+    TitleStart(ten_title),
+    Custom(ten_one, "times", 35, Color.Black, 40),
+    Bullet(ten_two),
+    Bullet(ten_three),
+    Bullet(ten_four),
+    Custom(ten_five, "times", 35, Color.Black, 40),
+    Bullet(ten_six),
+    Custom(ten_seven, "times", 35, Color.Black, 40),
+    Custom(ten_eight, "times", 35, Color.Black, 40),
+    Custom(ten_nine, "times", 35, Color.Black, 40),
+    Custom(ten_ten, "times", 35, Color.Black, 40),
+    
+    TitleStart(eleven_title),
+    Img(eleven_pic),
+    Img(eleven_pic2),
+    
+    TitleStart(twelve_title),
+    Custom(twelve_one, "times", 35, Color.Black, 40),
+    Bullet(twelve_two),
+    Bullet(twelve_three),
+    Custom(twelve_four, "times", 35, Color.Black, 40),
+    Bullet(twelve_five),
+    Bullet(twelve_six),
+    
+    TitleStart(thirteen_title),
+    Custom(thirteen_one, "times", 35, Color.Black, 40),
+    Custom(thirteen_two, "times", 35, Color.Black, 40),
+    Custom(thirteen_three, "times", 35, Color.Black, 40)
 )
 
 //powerpoint
@@ -249,7 +349,7 @@ def stringToGraphic(slide: Slide): Graphic = slide match {
       val graphics = splitAll(words, Array[Graphic](), x.font, x.fontSize, x.color)
       val g = handleTexts(graphics)
       val gg = g.translate((canvas.width - g.bounds.width) / 2, 0)
-      val newBounds = RectBounds(gg.bounds.left, gg.bounds.right, gg.bounds.top - 40, gg.bounds.bottom)
+      val newBounds = RectBounds(gg.bounds.left, gg.bounds.right, gg.bounds.top - x.pad, gg.bounds.bottom)
       Bounded(gg, newBounds)
       
     case _ => Text("")

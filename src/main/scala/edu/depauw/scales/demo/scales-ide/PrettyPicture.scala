@@ -1,10 +1,12 @@
+def pretty(): Unit = {
+import Base._
 import Reactive._
 
 //mouse click changes
 val canvas = Canvas.canvas
 
-canvas.width = 700
-canvas.height = 600
+canvas.width = 1024
+canvas.height = 768
 
 	val w = Canvas.canvas.width
 	val h = Canvas.canvas.height / 2
@@ -25,7 +27,7 @@ canvas.height = 600
 		val graphic = wheel1.bottom on (wheel1.center on carBody.bl).br
 		//dom.alert("graphic width: " + graphic.bounds.width)
 		val xPos = (x * 30) % (Canvas.canvas.width + graphic.bounds.width)
-		graphic.translate(xPos, 350)
+		graphic.tl.translate(xPos, h + graphic.bounds.height)
 	}
 
 //mouse position
@@ -54,8 +56,8 @@ canvas.height = 600
     val puff = Ellipse(70, 70).stroke(Color.Clear).fill(Color.OliveGreen)
     val trunk = Rectangle(40, 200).stroke(Color.Mauve)
     val tree = ((((longPuff.tr on tallPuff.center) on longPuff.tl).bottom on (puff.left on puff).center).bottom on 
-      trunk.center).translate(100, 200)
-    val trees = (tree beside tree) beside (tree beside tree)
+      trunk.center)//.translate(100, 200)
+    val trees = ((tree beside tree) beside (tree beside tree)).tl.translate((w  - tree.bounds.width * 4) / 2, h - tree.bounds.height)//.showBounds
 
 //just sounds
 	val note = Note(200) before Note(300)
@@ -74,3 +76,4 @@ canvas.height = 600
 
 //running
 actor.displayOn()
+}

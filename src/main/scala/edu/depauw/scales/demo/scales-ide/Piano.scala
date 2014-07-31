@@ -1,3 +1,4 @@
+def piano(): Unit = {
 val canvas = Canvas.canvas
 val width = canvas.width
 val height = canvas.height
@@ -169,3 +170,4 @@ lazy val ks = (fiveBlackKeys beside stwobk beside sthreebk beside singleBlackKey
 val playing = Anim(width, height)(Reactive.MouseClick, fnGetNote)//.act()
 
 (Act(ks) on Act(playing)).act()
+}
