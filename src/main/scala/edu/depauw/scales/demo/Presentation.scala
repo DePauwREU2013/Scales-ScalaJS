@@ -1,10 +1,8 @@
 package edu.depauw.scales.demo
 
-import scala.scalajs.js
-import org.scalajs.dom
 import rx._
-
 import edu.depauw.scales.graphics._
+import edu.depauw.scales.graphics.Base.Color
 
 object Presentation {
 
